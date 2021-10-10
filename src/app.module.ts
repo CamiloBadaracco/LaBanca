@@ -4,9 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgentModule } from './agent/infrastructure/modules/agent.module';
 import { typeOrmConfig } from './config/typeorm.config';
 import 'reflect-metadata';
+
+
 import { UserModule } from './user/infrastructure/modules/user.module';
-import { SubAgent } from './subAgent/domain/subAgent.entity';
-import { Address } from './address/domain/address.entity';
+import { SubAgentModule } from './subAgent/infrastructure/modules/subAgent.module';
+import { AddressModule } from './address/infrastructure/modules/address.module';
+import { ProvisorioModule } from './provisorio/infrastructure/modules/provisorio.module';
+import { ExpedientModule } from './expedient/infrastructure/modules/expedient.module';
+ 
 //import { MailModule } from './mail/infrastructure/modules/mail.module';
 
 @Module({
@@ -15,8 +20,10 @@ import { Address } from './address/domain/address.entity';
     ConfigModule.forRoot(),
     AgentModule,
     UserModule,
-    SubAgent,
-    Address
+    SubAgentModule,
+    AddressModule,
+    ProvisorioModule,
+    ExpedientModule
    // MailModule,
   ],
 })
