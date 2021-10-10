@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+/*import { Module } from '@nestjs/common';
 import { MailController } from '../controllers/mail.controller';
-import { MailService } from '../../use-cases/mail.service';
-import { NotificationRepository } from 'src/agent/infrastructure/repository/notification.repository';
+//import { MailService } from '../../use-cases/mail.service';
+//import { NotificationRepository } from 'src/agent/infrastructure/repository/notification.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -10,4 +10,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [MailService],
   exports: [MailService],
 })
-export class MailModule {}
+export class MailModule {}*/

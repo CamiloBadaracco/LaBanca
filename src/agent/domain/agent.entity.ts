@@ -12,11 +12,9 @@ export class Agent extends BaseEntity {
   orden: string;
 
   @Column({ nullable: true })
-
   zone: string;
 
   @Column({ nullable: true })
-
   mail: string;
 
   @Column()

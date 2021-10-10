@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+/*import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { SendInviteUsersMailDto } from './dto/send-invite-users-mail.dto';
 import { MailService } from '../../use-cases/mail.service';
 
@@ -13,3 +13,4 @@ export class MailController {
     return this.mailsService.sendInviteUsersMail(sendInviteUsersMailDto);
   }
 }
+*/
