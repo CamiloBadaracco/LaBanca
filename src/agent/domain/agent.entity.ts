@@ -14,7 +14,7 @@ export class Agent extends BaseEntity {
   @Column({ nullable: true })
   zone: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   mail: string;
 
   @Column()

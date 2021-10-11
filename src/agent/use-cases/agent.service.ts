@@ -24,16 +24,7 @@ export class AgentService {
 
     return found;
   }
-
-  async getAgentByEmail(email: string): Promise<Agent> {
-    const found = await this.agentRepository.findOne({ where: { email } });
-
-    if (!found) {
-      throw new NotFoundException(`Agent with email "${email}" not found`);
-    }
-
-    return found;
-  }
+ 
 
   async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
     return await this.agentRepository.createAgent(createAgentDto);
