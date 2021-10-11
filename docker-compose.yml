@@ -1,0 +1,29 @@
+version: '3'
+services:
+  api:
+    build: .
+    environment:
+      - PORT=5000
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres
+    volumes:
+      - ./src:/app/ort-uxquest-api/src
+      - ./.env:/app/ort-uxquest-api/.env
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "npm run migration-run && npm run start"
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - '5434:5432'
+volumes:
+  db_data:
