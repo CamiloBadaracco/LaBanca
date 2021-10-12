@@ -1,13 +1,16 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateAgentDto } from './dto/create-agent.dto';
 import { Agent } from '../../domain/agent.entity';
 import { AgentService } from '../../use-cases/agent.service';
+import { UpdateAgentDto } from './dto/update-agent.dto';
 
 @Controller('agent')
 export class AgentController {
@@ -26,5 +29,16 @@ export class AgentController {
   @Post()
   createAgent(@Body() createAgentDto: CreateAgentDto): Promise<Agent> {
     return this.agentsService.createAgent(createAgentDto);
+  }
+
+  
+  @Put()
+  updateAgent(@Body() updateAgentDto: UpdateAgentDto): Promise<Agent> {
+    return this.agentsService.updateAgent(updateAgentDto);
+  }
+
+  @Delete()
+  deleteAgent(@Param('id') id: number):Promise<Agent>{
+    return this.agentsService.deleteAgent(id);
   }
 }

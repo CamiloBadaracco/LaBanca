@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Address } from '../domain/address.entity';
 import { CreateAddressDto } from '../infrastructure/controllers/dto/create-address.dto';
+import { UpdateAddressDto } from '../infrastructure/controllers/dto/update-address.dto';
 import { AddressRepository } from '../infrastructure/repository/address.repository';
 
 @Injectable()
@@ -25,9 +26,17 @@ export class AddressService {
     return found;
   }
 
-  
-
   async createAddress(createAddressDto: CreateAddressDto): Promise<Address> {
     return await this.addressRepository.createAddress(createAddressDto);
   }
+
+  
+  async updateAddress(updateAddressDto: UpdateAddressDto): Promise<Address> {
+    return await this.addressRepository.updateAddress(updateAddressDto);
+  }
+  
+  async deleteAddress(id: number): Promise<Address>{
+     return await this.addressRepository.deleteAddress(id);
+  }
+
 }

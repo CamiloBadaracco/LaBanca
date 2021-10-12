@@ -1,7 +1,9 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn,JoinColumn  } from 'typeorm';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @Entity()
 export class Agent extends BaseEntity {
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,4 +21,9 @@ export class Agent extends BaseEntity {
 
   @Column()
   active: boolean;
+
+  
+  @OneToMany(type => SubAgent, subAgent => subAgent.id)  
+  subAgents: SubAgent[];
+  
 }

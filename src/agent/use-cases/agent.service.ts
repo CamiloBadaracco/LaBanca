@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Agent } from '../domain/agent.entity';
 import { CreateAgentDto } from '../infrastructure/controllers/dto/create-agent.dto';
+import { UpdateAgentDto } from '../infrastructure/controllers/dto/update-agent.dto';
 import { AgentRepository } from '../infrastructure/repository/agent.repository';
 
 @Injectable()
@@ -28,5 +29,14 @@ export class AgentService {
 
   async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
     return await this.agentRepository.createAgent(createAgentDto);
+  }
+
+  
+  async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
+    return await this.agentRepository.updateAgent(updateAgentDto);
+  }
+  
+  async deleteAgent(id: number): Promise<Agent>{
+     return await this.agentRepository.deleteAgent(id);
   }
 }

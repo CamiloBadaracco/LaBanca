@@ -1,4 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Agent } from 'src/agent/domain/agent.entity';
+import { Address } from 'src/address/domain/address.entity';
+import { Provisorio } from 'src/provisorio/domain/provisorio.entity';
+import { Expedient } from 'src/expedient/domain/expedient.entity'; 
 
 @Entity()
 export class SubAgent extends BaseEntity {
@@ -41,6 +45,24 @@ export class SubAgent extends BaseEntity {
 
   @Column({ nullable: false })
   active: boolean;
+
+
+
+  @ManyToOne(type => Agent, agent => agent.id)
+  agent: Agent;
+
+
+
+
+  @OneToMany(type => Address, address => address.id)  
+  addresses: Address[];
+  
+  @OneToMany(type => Expedient, expedient => expedient.expedientNumber)  
+  expedients: Expedient[];
+  
+  @OneToMany(type => Provisorio, provisorio => provisorio.id)  
+  provisorios: Provisorio[];
+  
   
  
 }

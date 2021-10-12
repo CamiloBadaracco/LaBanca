@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateAgentDto } from '../controllers/dto/create-agent.dto';
 import { Agent } from '../../domain/agent.entity';
+import { UpdateAgentDto } from '../controllers/dto/update-agent.dto';
 
 @EntityRepository(Agent)
 export class AgentRepository extends Repository<Agent> {
@@ -23,4 +24,26 @@ export class AgentRepository extends Repository<Agent> {
     await agent.save();
     return agent;
   }
+
+  
+  async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
+    const { agencyNumber, orden, zone, mail, active } = updateAgentDto;
+
+    const agent = new Agent();
+    agent.agencyNumber = agencyNumber;
+    agent.orden = orden;
+    agent.zone = zone;
+    agent.mail = mail;
+    agent.active = active;
+    await agent.save();
+    return agent;
+  }
+
+  
+  async deleteAgent(id: number ) : Promise<Agent> {
+    const agent = new Agent();
+      await this.delete(id);
+      return agent;
+  }
+
 }

@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @Entity()
 export class Provisorio extends BaseEntity {
@@ -13,6 +14,10 @@ export class Provisorio extends BaseEntity {
 
   @Column()
   active: boolean;
+
+  
+  @ManyToOne(type => SubAgent, subAgent => subAgent.id)
+  subAgent: SubAgent;
  
 }
  
