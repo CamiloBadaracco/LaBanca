@@ -60,4 +60,32 @@ export class SubAgentRepository extends Repository<SubAgent> {
       await this.delete(id);
       return subAgent;
   }
+
+
+
+  
+  
+  async updateStateSubAgent(subAgentUpdt:SubAgent ) : Promise<SubAgent> {
+    const { id,subAgencyNumber,documentNumber,name,passportPhoto,certificateGoodConduct,dateOfUpdate,rut,literalE,patentNumber,certificateNumber,resolutionNumber,active} = subAgentUpdt;
+
+
+    const subAg = new SubAgent();
+    
+    subAg.id= id;
+    subAg.subAgencyNumber= subAgencyNumber;
+    subAg.documentNumber= documentNumber;
+    subAg.name= name;
+    subAg.passportPhoto= passportPhoto;
+    subAg.certificateGoodConduct= certificateGoodConduct;
+    subAg.dateOfUpdate= dateOfUpdate;
+    subAg.rut= rut;
+    subAg.literalE= literalE;
+    subAg.patentNumber= patentNumber;
+    subAg.certificateNumber= certificateNumber;
+    subAg.resolutionNumber= resolutionNumber;
+    subAg.active= active;
+ 
+    await subAg.save();
+    return subAg;
+  }
 }

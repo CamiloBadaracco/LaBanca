@@ -45,5 +45,18 @@ export class ProvisorioRepository extends Repository<Provisorio> {
       return provisorio;
   }
 
+  
+  async updateStateProvisorio(provisorioUpdt:Provisorio ) : Promise<Provisorio> {
+    const { id, url, observation, active  } = provisorioUpdt;
+
+    const prov = new Provisorio();
+    prov.id = id;
+    prov.url = url;
+    prov.observation = observation;
+    prov.active = active;
+    
+    await prov.save();
+    return prov;
+  }
 
 }

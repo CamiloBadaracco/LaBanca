@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     Param,
+    Patch,
     Post,
     Put,
   } from '@nestjs/common';
@@ -42,6 +43,11 @@ import { UpdateExpedientDto } from './dto/update-expedient.dto';
       return this.expedientService.deleteExpedient(id);
     }
 
+      
+    @Patch('/state/:id')
+    updateStateExpedient(@Param('id') id: number) {
+    this.expedientService.updateStateExpedient(id);
+    }
 
   }
   

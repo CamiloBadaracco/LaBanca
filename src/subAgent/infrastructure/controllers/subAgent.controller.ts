@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-  } from '@nestjs/common';
+import {Body,Controller,Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
   import { CreateSubAgenttDto } from './dto/create-subAgent.dto';
   import { SubAgent } from '../../domain/subAgent.entity';
   import { SubAgentService } from '../../use-cases/subAgent.service';
@@ -40,6 +32,12 @@ import { UpdateSubAgentDto } from './dto/update-subAgent.dto';
     @Delete()
     deleteSubAgent(@Param('id') id: number):Promise<SubAgent>{
       return this.subAgentService.deleteSubAgent(id);
+    }
+
+     
+    @Patch('/state/:id')
+    updateStateSubAgent(@Param('id') id: number) {
+    this.subAgentService.updateStateSubAgent(id);
     }
   }
   

@@ -7,7 +7,7 @@ var cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.connectMicroservice({
-    transport: Transport.RMQ,
+   // transport: Transport.RMQ,
     options: {
       urls: [process.env.RABBIT_URL],
       queue: process.env.RABBIT_QUEUE_ADMIN,

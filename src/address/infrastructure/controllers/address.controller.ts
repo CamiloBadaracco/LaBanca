@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -41,5 +42,9 @@ export class AddressController {
     return this.addresssService.deleteAddress(id);
   }
 
+  @Patch('/state/:id')
+  updateStateAddress(@Param('id') id: number) {
+  this.addresssService.updateStateAddress(id);
+  }
   
 }

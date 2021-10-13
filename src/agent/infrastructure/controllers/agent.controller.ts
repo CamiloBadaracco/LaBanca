@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -41,4 +42,10 @@ export class AgentController {
   deleteAgent(@Param('id') id: number):Promise<Agent>{
     return this.agentsService.deleteAgent(id);
   }
+
+  @Patch('/state/:id')
+  updateStateAgent(@Param('id') id: number) {
+  this.agentsService.updateStateAgent(id);
+  }
+ 
 }

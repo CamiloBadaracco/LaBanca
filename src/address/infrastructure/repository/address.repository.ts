@@ -54,6 +54,25 @@ export class AddressRepository extends Repository<Address> {
       return address;
   }
 
-   
+ 
+  
+  async updateStateAddress(addressUpdt:Address ) : Promise<Address> {
+    const { id,department, location, streetName, streetNumber, apto,observationAddress,active  } = addressUpdt;
+
+    const address = new Address();
+    address.id = id;
+    address.department = department;
+    address.location = location;
+    address.streetNumber = streetNumber;
+    address.streetName = streetName;
+    address.apto = apto;
+    address.observationAddress = observationAddress;
+    address.active = active;
+    
+    await address.save();
+    return address;
+  }
 
 }
+
+ 

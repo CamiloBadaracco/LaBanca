@@ -8,8 +8,8 @@ export class UserRepository extends Repository<User> {
   async getUsers(): Promise<User[]> {
     const query = this.createQueryBuilder('user');
 
-    const agents = await query.getMany();
-    return agents;
+    const user = await query.getMany();
+    return user;
   }
 
   async createUser(createUserDto: CreateUsertDto): Promise<User> {

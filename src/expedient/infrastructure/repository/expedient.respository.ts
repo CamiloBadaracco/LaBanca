@@ -46,4 +46,18 @@ export class ExpedientRepository extends Repository<Expedient> {
       await this.delete(id);
       return expedient;
   }
+
+  
+  async updateStateExpedient(expedientUpdt:Expedient ) : Promise<Expedient> {
+    const { expedientNumber, url, observation, active  } = expedientUpdt;
+
+    const exped = new Expedient();
+    exped.expedientNumber = expedientNumber;
+    exped.url = url;
+    exped.observation = observation;
+    exped.active = active;
+    
+    await exped.save();
+    return exped;
+  }
 }

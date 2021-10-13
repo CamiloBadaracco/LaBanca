@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     Param,
+    Patch,
     Post,
     Put,
   } from '@nestjs/common';
@@ -41,6 +42,12 @@ import {
     @Delete()
     deleteProvisorio(@Param('id') id: number):Promise<Provisorio>{
       return this.provisorioService.deleteProvisorio(id);
+    }
+
+     
+    @Patch('/state/:id')
+    updateStateProvisorio(@Param('id') id: number) {
+    this.provisorioService.updateStateProvisorio(id);
     }
 
 

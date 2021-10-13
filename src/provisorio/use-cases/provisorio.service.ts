@@ -40,4 +40,32 @@ export class ProvisorioService {
   async deleteProvisorio(id: number): Promise<Provisorio>{
      return await this.provisorioRepository.deleteProvisorio(id);
   }
+
+  
+  
+  async updateStateProvisorio(id: number): Promise<Provisorio>{
+    
+    const found = await this.provisorioRepository.findOne({ where: { id } });
+    if (!found) {
+      throw new NotFoundException(`Provisorio with ID "${id}" not found`);
+    }
+
+    var stateUpdating= false;
+    if (found.active == false) {
+      var stateUpdating= true;
+    }
+
+     
+    var provUpdate = new Provisorio();
+    provUpdate.id              = found.id;
+    provUpdate.url             =  found.url;
+    provUpdate.observation     =  found.observation;
+    provUpdate.active          =  stateUpdating;
+ 
+      
+    return await this.provisorioRepository.updateStateProvisorio(provUpdate);
+  }
+  
+
+
 }

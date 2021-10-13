@@ -39,4 +39,36 @@ export class AddressService {
      return await this.addressRepository.deleteAddress(id);
   }
 
+
+
+  
+  async updateStateAddress(id: number): Promise<Address>{
+    
+    const found = await this.addressRepository.findOne({ where: { id } });
+    if (!found) {
+      throw new NotFoundException(`Address with ID "${id}" not found`);
+    }
+
+    var stateUpdating= false;
+    if (found.active == false) {
+      var stateUpdating= true;
+    }
+
+    //SI O SI TENGO QUE SETEAR TODOS LOS ATRIBUTOS SI QUIERO CAMBIAR SOLO UNO ?
+    var addUpdate = new Address();
+    addUpdate.id             = found.id;
+    addUpdate.department     =  found.department;
+    addUpdate.location       =  found.location;
+    addUpdate.observationAddress   =  found.observationAddress;
+    addUpdate.streetName     =  found.streetName;
+    addUpdate.streetNumber   =  found.streetNumber;
+    addUpdate.apto           =  found.apto;
+    addUpdate.active         =  stateUpdating;
+
+ 
+      
+    return await this.addressRepository.updateStateAddress(addUpdate);
+  }
+
+
 }

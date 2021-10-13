@@ -46,4 +46,19 @@ export class AgentRepository extends Repository<Agent> {
       return agent;
   }
 
+  async updateStateAgent(agentUpdt:Agent ) : Promise<Agent> {
+    const { agencyNumber, orden, zone, mail, active  } = agentUpdt;
+
+    const agent = new Agent();
+    agent.agencyNumber = agencyNumber;
+    agent.orden = orden;
+    agent.zone = zone;
+    agent.mail = mail;
+    agent.mail = mail;
+    agent.active = active;
+    
+    await agent.save();
+    return agent;
+  }
+ 
 }

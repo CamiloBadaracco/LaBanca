@@ -39,4 +39,41 @@ export class SubAgentService {
   async deleteSubAgent(id: number): Promise<SubAgent>{
      return await this.subAgentRepository.deleteSubAgent(id);
   }
+
+  
+  async updateStateSubAgent(id: number): Promise<SubAgent>{
+    
+    const found = await this.subAgentRepository.findOne({ where: { id } });
+    if (!found) {
+      throw new NotFoundException(`SubAgent with ID "${id}" not found`);
+    }
+
+    var stateUpdating= false;
+    if (found.active == false) {
+      var stateUpdating= true;
+    }
+
+     
+    var subAgentUpdate = new SubAgent();
+
+
+    subAgentUpdate.id= found.id;
+    subAgentUpdate.subAgencyNumber= found.subAgencyNumber;
+    subAgentUpdate.documentNumber= found.documentNumber;
+    subAgentUpdate.name= found.name;
+    subAgentUpdate.passportPhoto= found.passportPhoto;
+    subAgentUpdate.certificateGoodConduct= found.certificateGoodConduct;
+    subAgentUpdate.dateOfUpdate= found.dateOfUpdate;
+    subAgentUpdate.rut= found.rut;
+    subAgentUpdate.literalE= found.literalE;
+    subAgentUpdate.patentNumber= found.patentNumber;
+    subAgentUpdate.certificateNumber= found.certificateNumber;
+    subAgentUpdate.resolutionNumber= found.resolutionNumber;
+    subAgentUpdate.active= stateUpdating;
+  
+ 
+      
+    return await this.subAgentRepository.updateStateSubAgent(subAgentUpdate);
+  }
+
 }
