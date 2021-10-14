@@ -15,9 +15,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
     } 
   
   
-    @Get('/:id')
-    getUserById(@Param('id') id: number): Promise<User> {
-      return this.userService.getUserById(id);
+    @Get('/:userName')
+    getUserById(@Param('userName') userName: string): Promise<User> {
+      return this.userService.getUserById(userName);
     }
   
     @Post()

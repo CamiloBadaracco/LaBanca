@@ -16,11 +16,11 @@ export class UserService {
     return this.userRepository.getUsers();
   }
 
-  async getUserById(id: number): Promise<User> {
-    const found = await this.userRepository.findOne({ where: { id } });
+  async getUserById(userName: string): Promise<User> {
+    const found = await this.userRepository.findOne({ where: { userName } });
 
     if (!found) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
+      throw new NotFoundException(`User with userName "${userName}" not found`);
     }
 
     return found;

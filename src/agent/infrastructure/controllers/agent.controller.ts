@@ -22,9 +22,9 @@ export class AgentController {
     return this.agentsService.getAllAgents();
   }
 
-  @Get('/:id')
-  getAgentById(@Param('id') id: number): Promise<Agent> {
-    return this.agentsService.getAgentById(id);
+  @Get('/:agencyNumber')
+  getAgentById(@Param('agencyNumber') agencyNumber: string): Promise<Agent> {
+    return this.agentsService.getAgentById(agencyNumber);
   }
 
   @Post()

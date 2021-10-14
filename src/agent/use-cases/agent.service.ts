@@ -17,11 +17,11 @@ export class AgentService {
     return this.agentRepository.getAgents();
   }
 
-  async getAgentById(id: number): Promise<Agent> {
-    const found = await this.agentRepository.findOne({ where: { id } });
+  async getAgentById(agencyNumber: string): Promise<Agent> {
+    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
 
     if (!found) {
-      throw new NotFoundException(`Agent with ID "${id}" not found`);
+      throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
     }
 
     return found;
