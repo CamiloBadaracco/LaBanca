@@ -31,9 +31,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
       return this.userService.updateUser(updateUserDto);
     }
 
-    @Delete()
-    deleteUser(@Param('id') id: number):Promise<User>{
-      return this.userService.deleteUser(id);
+    @Delete('/:userName')
+    deleteUser(@Param('userName') userName: string):Promise<User>{
+      return this.userService.deleteUser(userName);
     }
 
   
