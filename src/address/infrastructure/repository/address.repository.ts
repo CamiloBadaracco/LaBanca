@@ -30,11 +30,11 @@ export class AddressRepository extends Repository<Address> {
     return address;
   }
 
-  async updateAddress(createAddressDto: UpdateAddressDto): Promise<Address> {
-    const {  department, location, streetName, streetNumber,apto,observationAddress,active } = createAddressDto;
+  async updateAddress(updateAddressDto: UpdateAddressDto): Promise<Address> {
+    const {id,department, location, streetName, streetNumber,apto,observationAddress,active } = updateAddressDto;
 
     const address = new Address();
-     
+    address.id =  parseInt(id.toString());
     address.department = department;
     address.location = location;
     address.streetName = streetName;

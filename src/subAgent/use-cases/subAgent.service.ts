@@ -12,19 +12,38 @@ export class SubAgentService {
     private subAgentRepository: SubAgentRepository,
   ) {}
 
+ 
+ 
+ 
   async getAllSubAgents(): Promise<SubAgent[]> {
     return this.subAgentRepository.getSubAgents();
   }
 
+ 
+async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
+  const found = await this.subAgentRepository.findOne({
+    where: { subAgencyNumber },
+    relations: ['addresses']
+  });
+
+  if (!found) {
+    throw new NotFoundException(`Survey with subAgencyNumber "${subAgencyNumber}" not found`);
+  }
+  return found;
+}
+
   async getSubAgentById(id: number): Promise<SubAgent> {
-    const found = await this.subAgentRepository.findOne({ where: { id } });
-
+    const found = await this.subAgentRepository.findOne({
+      where: { id },
+      relations: ['addresses']
+    });
+ 
     if (!found) {
-      throw new NotFoundException(`SubAgent with ID "${id}" not found`);
+      throw new NotFoundException(`Survey with ID "${id}" not found`);
     }
-
     return found;
   }
+  
  
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {

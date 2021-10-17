@@ -1,6 +1,10 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class UpdateAddressDto {
+ 
+  @IsNotEmpty()
+  id: number;
+ 
   @IsNotEmpty()
   agencyNumber: string;
 

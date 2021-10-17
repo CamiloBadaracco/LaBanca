@@ -3,6 +3,7 @@ import {Body,Controller,Delete, Get, Param, Patch, Post, Put} from '@nestjs/comm
   import { SubAgent } from '../../domain/subAgent.entity';
   import { SubAgentService } from '../../use-cases/subAgent.service';
 import { UpdateSubAgentDto } from './dto/update-subAgent.dto';
+import { Console } from 'console';
   
   @Controller('subAgent')
   export class SubAgentController {
@@ -13,14 +14,25 @@ import { UpdateSubAgentDto } from './dto/update-subAgent.dto';
       return this.subAgentService.getAllSubAgents();
     }
   
+    
+    @Get('/subAgencyNumber/:subAgencyNumber')
+    getSubAgentBySubAgencyNumber(@Param('subAgencyNumber') subAgencyNumber: string): Promise<SubAgent> {
+      return this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber);
+    }
+  
+
     @Get('/:id')
     getSubAgentById(@Param('id') id: number): Promise<SubAgent> {
       return this.subAgentService.getSubAgentById(id);
     }
   
+    
+
     @Post()
     createSubAgent(@Body() createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
+       
       return this.subAgentService.createSubAgent(createSubAgentDto);
+      
     }
 
       

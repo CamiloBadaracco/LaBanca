@@ -3,6 +3,7 @@ import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @Entity()
 export class Address extends BaseEntity {
+  
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,8 +30,9 @@ export class Address extends BaseEntity {
   active: boolean;
 
   
+ 
+  @ManyToOne(type => SubAgent, subAgent => subAgent.addresses)
 
-  @ManyToOne(type => SubAgent, subAgent => subAgent.id)
   subAgent: SubAgent;
 
 

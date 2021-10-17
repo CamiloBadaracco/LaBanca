@@ -1,4 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
+import { Address } from 'src/address/domain/address.entity';
+import { Expedient } from 'src/expedient/domain/expedient.entity';
+import { Provisorio } from 'src/provisorio/domain/provisorio.entity';
 
 export class CreateSubAgenttDto {
 
@@ -31,6 +34,20 @@ export class CreateSubAgenttDto {
 
   @IsNotEmpty()
   resolutionNumber: string;
+
+
+  
+  @IsNotEmpty()
+  address: Address;
+  
+
+  @IsNotEmpty()
+  expedient: Expedient;
+
+  @IsNotEmpty()
+  provisorio: Provisorio;
+  
+
   
 
 }

@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { CreateSubAgenttDto } from '../controllers/dto/create-subAgent.dto';
 import { SubAgent } from '../../domain/subAgent.entity';
 import { UpdateSubAgentDto } from '../controllers/dto/update-subAgent.dto';
+import { Address } from 'src/address/domain/address.entity';
 
 @EntityRepository(SubAgent)
 export class SubAgentRepository extends Repository<SubAgent> {
@@ -12,22 +13,75 @@ export class SubAgentRepository extends Repository<SubAgent> {
     return agents;
   }
 
+
+
+  async getSubAgentById(): Promise<SubAgent[]> {
+    const query = this.createQueryBuilder('subAgent')
+      .leftJoinAndSelect('subAgent.addresses', 'address')
+
+    const agents = await query.getMany();
+    return agents;
+  }
+
+
+ 
+ 
+
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    const { subAgencyNumber,documentNumber, name,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,resolutionNumber} = createSubAgentDto;
+    const { subAgencyNumber,documentNumber, name,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,resolutionNumber,address,expedient,provisorio} = createSubAgentDto;
 
     const subAgent = new SubAgent();
+
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
     subAgent.name = name;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
+    subAgent.dateOfUpdate = null;
     subAgent.rut = rut;
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
     subAgent.certificateNumber = certificateNumber;
     subAgent.resolutionNumber = resolutionNumber;
- 
+    subAgent.active =true;
 
+    
+
+    const objAdd = new Address();
+    objAdd.id = 30
+    objAdd.location = "address.location";
+    objAdd.department= "address.department";
+    objAdd.active = true;
+    objAdd.streetName ="address.streetName";
+    objAdd.streetNumber = "address.streetNumber";
+    objAdd.apto="address.apto";
+    objAdd.observationAddress = "address.observationAddress";
+ 
+    var addresAgregar = new Array<Address>();
+    addresAgregar.push(objAdd);  
+    subAgent.addresses=addresAgregar;
+
+
+
+    /*
+    const objAdd = new Address();
+    id
+    objAdd.location = address.location;
+    objAdd.department= address.department;
+    objAdd.active = true;
+    objAdd.streetName =address.streetName;
+    objAdd.streetNumber = address.streetNumber;
+    objAdd.apto=address.apto;
+    objAdd.observationAddress = address.observationAddress;
+*/
+
+
+
+
+    subAgent.expedients=null;
+    subAgent.provisorios=null;
+
+ 
     await subAgent.save();
     return subAgent;
   }
