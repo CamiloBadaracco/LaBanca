@@ -26,9 +26,10 @@ export class ProvisorioRepository extends Repository<Provisorio> {
 
   
   async updateProvisorio(updateProvisorioDto: UpdateProvisorioDto): Promise<Provisorio> {
-    const { url,observation,active } = updateProvisorioDto;
+    const { id,url,observation,active } = updateProvisorioDto;
 
     const provisorio = new Provisorio();
+    provisorio.id = parseInt(id.toString());
     provisorio.url = url;
     provisorio.observation = observation;
     provisorio.active = active;

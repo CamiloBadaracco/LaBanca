@@ -30,7 +30,7 @@ export class ExpedientRepository extends Repository<Expedient> {
     const {expedientNumber,url,observation,active } = updateExpedientDto;
 
     const expedient = new Expedient();
-    expedient.expedientNumber = expedientNumber;
+    expedient.expedientNumber =  parseInt(expedientNumber.toString());
     expedient.url = url;
     expedient.observation = observation;
     expedient.active = active;

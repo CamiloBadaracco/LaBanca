@@ -2,6 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UpdateSubAgentDto {
 
+  
   @IsNotEmpty()
   subAgencyNumber: string;
 
