@@ -48,28 +48,28 @@ export class AgentService {
   }
 
 
-   async updateStateAgent(id: number): Promise<Agent>{
+   async editStateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent>{
     
-    const found = await this.agentRepository.findOne({ where: { id } });
+    const {id,agencyNumber,orden,zone,mail,active} = updateAgentDto;
+
+    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+
     if (!found) {
-      throw new NotFoundException(`Agent with ID "${id}" not found`);
+      throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
     }
 
-    var stateUpdating= false;
-    if (found.active == false) {
-      var stateUpdating= true;
-    }
+  
 
-    //SI O SI TENGO QUE SETEAR TODOS LOS ATRIBUTOS SI QUIERO CAMBIAR SOLO UNO ?
-    var agUpdate = new Agent();
-    agUpdate.agencyNumber = found.agencyNumber;
-    agUpdate.id     =  found.id;
-    agUpdate.orden  =  found.orden;
-    agUpdate.zone   =  found.zone;
-    agUpdate.mail   =  found.mail;
-    agUpdate.active =  stateUpdating;
-      
-    return await this.agentRepository.updateStateAgent(agUpdate);
+    if (!found.active) {
+       updateAgentDto.active= true;
+    }else{
+       updateAgentDto.active= false;
+    }
+    
+    
+    updateAgentDto.id=found.id;
+
+    return await this.agentRepository.updateStateAgent(updateAgentDto);
   }
 
   

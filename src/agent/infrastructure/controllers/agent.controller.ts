@@ -43,9 +43,10 @@ export class AgentController {
     return this.agentsService.deleteAgent(agencyNumber);
   }
 
-  @Patch('/state/:id')
-  updateStateAgent(@Param('id') id: number) {
-  this.agentsService.updateStateAgent(id);
+  
+  @Put('/editStateAgent')
+  editStateAgent(@Body() updateAgentDto: UpdateAgentDto) :Promise<Agent>{
+    return this.agentsService.editStateAgent(updateAgentDto);
   }
  
 }

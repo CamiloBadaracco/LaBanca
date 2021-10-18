@@ -27,9 +27,10 @@ export class AgentRepository extends Repository<Agent> {
 
   
   async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
-    const { agencyNumber, orden, zone, mail, active } = updateAgentDto;
+    const { id,agencyNumber, orden, zone, mail, active } = updateAgentDto;
 
     const agent = new Agent();
+    agent.id = id;
     agent.agencyNumber = agencyNumber;
     agent.orden = orden;
     agent.zone = zone;
@@ -46,11 +47,12 @@ export class AgentRepository extends Repository<Agent> {
       return agent;
   }
 
-  async updateStateAgent(agentUpdt:Agent ) : Promise<Agent> {
-    const { agencyNumber, orden, zone, mail, active  } = agentUpdt;
+  async updateStateAgent(agentUpdt:UpdateAgentDto ) : Promise<Agent> {
+    const { id,agencyNumber, orden, zone, mail, active  } = agentUpdt;
 
     const agent = new Agent();
-    agent.agencyNumber = agencyNumber;
+    agent.id = parseInt(id.toString());
+    agent.agencyNumber = agencyNumber.toString();
     agent.orden = orden;
     agent.zone = zone;
     agent.mail = mail;

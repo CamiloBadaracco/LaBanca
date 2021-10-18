@@ -41,6 +41,8 @@ import { Console } from 'console';
       return this.subAgentService.updateSubAgent(updateSubAgentDto);
     }
 
+ 
+
     @Delete()
     deleteSubAgent(@Param('id') id: number):Promise<SubAgent>{
       return this.subAgentService.deleteSubAgent(id);
