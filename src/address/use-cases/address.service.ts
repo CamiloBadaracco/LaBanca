@@ -59,7 +59,7 @@ export class AddressService {
     addUpdate.id             = found.id;
     addUpdate.department     =  found.department;
     addUpdate.location       =  found.location;
-    addUpdate.observationAddress   =  found.observationAddress;
+    addUpdate.observation   =  found.observation;
     addUpdate.streetName     =  found.streetName;
     addUpdate.streetNumber   =  found.streetNumber;
     addUpdate.apto           =  found.apto;

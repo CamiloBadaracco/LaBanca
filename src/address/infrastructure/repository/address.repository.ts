@@ -15,23 +15,23 @@ export class AddressRepository extends Repository<Address> {
   }
 
   async createAddress(createAddressDto: CreateAddressDto): Promise<Address> {
-    const {  department, location, streetName, streetNumber,apto,observationAddress,active } = createAddressDto;
+    const {  department, location, streetName, streetNumber,apto,observation,active } = createAddressDto;
 
     const address = new Address();
-     
+    address.id = 0;
     address.department = department;
     address.location = location;
     address.streetName = streetName;
     address.streetNumber = streetNumber;
     address.apto = apto;
-    address.observationAddress = observationAddress;
+    address.observation = observation;
     address.active = active;
     await address.save();
     return address;
   }
 
   async updateAddress(updateAddressDto: UpdateAddressDto): Promise<Address> {
-    const {id,department, location, streetName, streetNumber,apto,observationAddress,active } = updateAddressDto;
+    const {id,department, location, streetName, streetNumber,apto,observation,active } = updateAddressDto;
 
     const address = new Address();
     address.id =  parseInt(id.toString());
@@ -40,7 +40,7 @@ export class AddressRepository extends Repository<Address> {
     address.streetName = streetName;
     address.streetNumber = streetNumber;
     address.apto = apto;
-    address.observationAddress = observationAddress;
+    address.observation = observation;
     address.active = active;
     await address.save();
     return address;
@@ -57,7 +57,7 @@ export class AddressRepository extends Repository<Address> {
  
   
   async updateStateAddress(addressUpdt:Address ) : Promise<Address> {
-    const { id,department, location, streetName, streetNumber, apto,observationAddress,active  } = addressUpdt;
+    const { id,department, location, streetName, streetNumber, apto,observation,active  } = addressUpdt;
 
     const address = new Address();
     address.id = id;
@@ -66,7 +66,7 @@ export class AddressRepository extends Repository<Address> {
     address.streetNumber = streetNumber;
     address.streetName = streetName;
     address.apto = apto;
-    address.observationAddress = observationAddress;
+    address.observation = observation;
     address.active = active;
     
     await address.save();

@@ -17,7 +17,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
 
   async getSubAgentById(): Promise<SubAgent[]> {
     const query = this.createQueryBuilder('subAgent')
-      .leftJoinAndSelect('subAgent.addresses', 'address')
+      .leftJoinAndSelect('subAgent.address', 'address')
 
     const agents = await query.getMany();
     return agents;
@@ -45,43 +45,29 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAgent.resolutionNumber = resolutionNumber;
     subAgent.active =true;
 
-    
-
-    const objAdd = new Address();
-    objAdd.id = 30
-    objAdd.location = "address.location";
-    objAdd.department= "address.department";
-    objAdd.active = true;
-    objAdd.streetName ="address.streetName";
-    objAdd.streetNumber = "address.streetNumber";
-    objAdd.apto="address.apto";
-    objAdd.observationAddress = "address.observationAddress";
  
-    var addresAgregar = new Array<Address>();
-    addresAgregar.push(objAdd);  
-    subAgent.addresses=addresAgregar;
 
-
-
-    /*
+ 
     const objAdd = new Address();
-    id
+    objAdd.id = address.id;
     objAdd.location = address.location;
     objAdd.department= address.department;
     objAdd.active = true;
     objAdd.streetName =address.streetName;
     objAdd.streetNumber = address.streetNumber;
     objAdd.apto=address.apto;
-    objAdd.observationAddress = address.observationAddress;
-*/
+    objAdd.observation = address.observation;
+     
+ 
+    var addressAgregar = new Array<Address>();
+    addressAgregar.push(objAdd);  
+    subAgent.address=addressAgregar;
 
-
-
-
+    
     subAgent.expedients=null;
     subAgent.provisorios=null;
-
  
+
     await subAgent.save();
     return subAgent;
   }

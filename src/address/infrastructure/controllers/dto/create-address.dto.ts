@@ -1,8 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateAddressDto {
-  @IsNotEmpty()
-  agencyNumber: string;
+   
 
   @IsNotEmpty()
   department: string;
@@ -20,9 +19,8 @@ export class CreateAddressDto {
   apto: string;
 
   @IsNotEmpty()
-  observationAddress: string;
+  observation: string;
  
-
   @IsNotEmpty()
   active: boolean;
 }

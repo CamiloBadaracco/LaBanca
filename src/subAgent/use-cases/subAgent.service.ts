@@ -23,7 +23,7 @@ export class SubAgentService {
 async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
   const found = await this.subAgentRepository.findOne({
     where: { subAgencyNumber },
-    relations: ['addresses']
+    relations: ['address']
   });
 
   if (!found) {
@@ -35,7 +35,7 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
   async getSubAgentById(id: number): Promise<SubAgent> {
     const found = await this.subAgentRepository.findOne({
       where: { id },
-      relations: ['addresses']
+      relations: ['address']
     });
  
     if (!found) {
@@ -47,6 +47,7 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
  
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
+ 
     return await this.subAgentRepository.createSubAgent(createSubAgentDto);
   }
 

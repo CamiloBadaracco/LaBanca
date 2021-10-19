@@ -23,7 +23,7 @@ export class Address extends BaseEntity {
   apto: string;
 
   @Column({ nullable: true })
-  observationAddress: string;
+  observation: string;
  
    
   @Column()
@@ -31,7 +31,7 @@ export class Address extends BaseEntity {
 
   
  
-  @ManyToOne(type => SubAgent, subAgent => subAgent.addresses)
+  @ManyToOne(type => SubAgent, subAgent => subAgent.address)
 
   subAgent: SubAgent;
 

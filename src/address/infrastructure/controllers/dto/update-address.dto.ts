@@ -6,9 +6,6 @@ export class UpdateAddressDto {
   id: number;
  
   @IsNotEmpty()
-  agencyNumber: string;
-
-  @IsNotEmpty()
   department: string;
 
   @IsNotEmpty()
@@ -24,7 +21,7 @@ export class UpdateAddressDto {
   apto: string;
 
   @IsNotEmpty()
-  observationAddress: string;
+  observation: string;
  
 
   @IsNotEmpty()

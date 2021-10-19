@@ -61,7 +61,7 @@ export class SubAgent extends BaseEntity {
     cascade: true 
    })   
    
-   addresses: Array<Address>;
+   address:    Array<Address>;
 
 
   
