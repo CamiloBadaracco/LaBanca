@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
 
 export class CreateAddressDto {
    
@@ -23,4 +23,10 @@ export class CreateAddressDto {
  
   @IsNotEmpty()
   active: boolean;
+
+
+  //Relacion con subAgent
+  @IsEmpty()
+  subAgencyNumber: string;
+
 }

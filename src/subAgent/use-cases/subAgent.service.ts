@@ -22,7 +22,7 @@ export class SubAgentService {
  
 async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
   const found = await this.subAgentRepository.findOne({
-    where: { subAgencyNumber },
+    where:[{ subAgencyNumber }, { active: true }],
     relations: ['address','provisorio','expedient']
   });
 

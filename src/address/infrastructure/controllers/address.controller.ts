@@ -37,14 +37,16 @@ export class AddressController {
     return this.addresssService.updateAddress(updateAddressDto);
   }
 
+  /*
   @Delete()
   deleteAddress(@Param('id') id: number):Promise<Address>{
     return this.addresssService.deleteAddress(id);
   }
-
+*/
+/*
   @Patch('/state/:id')
   updateStateAddress(@Param('id') id: number) {
   this.addresssService.updateStateAddress(id);
-  }
+  }*/
   
 }

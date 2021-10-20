@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SubAgentService } from 'src/subAgent/use-cases/subAgent.service';
 import { Address } from '../domain/address.entity';
 import { CreateAddressDto } from '../infrastructure/controllers/dto/create-address.dto';
 import { UpdateAddressDto } from '../infrastructure/controllers/dto/update-address.dto';
 import { AddressRepository } from '../infrastructure/repository/address.repository';
 
+
 @Injectable()
 export class AddressService {
-  constructor(
-    @InjectRepository(AddressRepository)
-    private addressRepository: AddressRepository,
-  ) {}
+  constructor(@InjectRepository(AddressRepository)private addressRepository: AddressRepository,
+              @InjectRepository(SubAgentService) private subAgentService: SubAgentService ) {}
 
   async getAllAddresss(): Promise<Address[]> {
     return this.addressRepository.getAddresss();
@@ -26,11 +26,33 @@ export class AddressService {
     return found;
   }
 
-  async createAddress(createAddressDto: CreateAddressDto): Promise<Address> {
-    return await this.addressRepository.createAddress(createAddressDto);
+  async createAddress( createAddressDto: CreateAddressDto): Promise<Address> {
+
+  
+    //NumeroSubAgency
+    let subAgencyNumber = createAddressDto.subAgencyNumber;
+    console.log('SubAgency recibido: '+ subAgencyNumber);
+
+    //Obtengo SubAgente por numero de sub agente y me quedo con la address viva.
+    let address =  await (await this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber)).address[0];
+
+  
+    console.log(address.department);
+ 
+    //Si hay address viva, hago update para cambiar de estado
+    if (address) {
+      address.active = false;
+      this.addressRepository.updateStateAddress(address);
+    }
+
+ 
+    
+    //Creo nueva addres
+    return await this.addressRepository.createAddress( createAddressDto);
   }
 
   
+
   async updateAddress(updateAddressDto: UpdateAddressDto): Promise<Address> {
     return await this.addressRepository.updateAddress(updateAddressDto);
   }
