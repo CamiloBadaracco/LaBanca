@@ -3,6 +3,8 @@ import { CreateSubAgenttDto } from '../controllers/dto/create-subAgent.dto';
 import { SubAgent } from '../../domain/subAgent.entity';
 import { UpdateSubAgentDto } from '../controllers/dto/update-subAgent.dto';
 import { Address } from 'src/address/domain/address.entity';
+import { Expedient } from 'src/expedient/domain/expedient.entity';
+import { Provisorio } from 'src/provisorio/domain/provisorio.entity';
 
 @EntityRepository(SubAgent)
 export class SubAgentRepository extends Repository<SubAgent> {
@@ -45,10 +47,9 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAgent.resolutionNumber = resolutionNumber;
     subAgent.active =true;
 
- 
-
- 
-    const objAdd = new Address();
+    //#region  Mapeo Addres no necesario.
+ //No es necesario el mappero 
+  /*  const objAdd = new Address();
     objAdd.id = address.id;
     objAdd.location = address.location;
     objAdd.department= address.department;
@@ -56,16 +57,24 @@ export class SubAgentRepository extends Repository<SubAgent> {
     objAdd.streetName =address.streetName;
     objAdd.streetNumber = address.streetNumber;
     objAdd.apto=address.apto;
-    objAdd.observation = address.observation;
-     
+    objAdd.observation = address.observation;*/
+     //#endregion
  
     var addressAgregar = new Array<Address>();
-    addressAgregar.push(objAdd);  
+    addressAgregar.push(address);  
     subAgent.address=addressAgregar;
 
     
-    subAgent.expedients=null;
-    subAgent.provisorios=null;
+    var expedientAgregar = new Array<Expedient>();
+    expedientAgregar.push(expedient);  
+    subAgent.expedient=expedientAgregar;
+
+  
+    
+    var provisorioAgregar = new Array<Provisorio>();
+    provisorioAgregar.push(provisorio);  
+    subAgent.provisorio=provisorioAgregar;
+
  
 
     await subAgent.save();

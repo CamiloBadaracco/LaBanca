@@ -16,7 +16,7 @@ export class Provisorio extends BaseEntity {
   active: boolean;
 
   
-  @ManyToOne(type => SubAgent, subAgent => subAgent.id)
+  @ManyToOne(type => SubAgent, subAgent => subAgent.provisorio)
   subAgent: SubAgent;
  
 }

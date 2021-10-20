@@ -61,15 +61,23 @@ export class SubAgent extends BaseEntity {
     cascade: true 
    })   
    
-   address:    Array<Address>;
+   address: Array<Address>;
 
 
   
-  @OneToMany(type => Expedient, expedient => expedient.expedientNumber)  
-  expedients: Expedient[];
+  @OneToMany(type => Expedient, expedient => expedient.subAgent, {
+    cascade: true 
+   })   
+    
+  expedient: Array<Expedient>;
   
-  @OneToMany(type => Provisorio, provisorio => provisorio.id)  
-  provisorios: Provisorio[];
+
+
+  @OneToMany(type => Provisorio, provisorio => provisorio.subAgent, {
+    cascade: true 
+   })   
+  provisorio: Array<Provisorio>;
+  
   
   
  

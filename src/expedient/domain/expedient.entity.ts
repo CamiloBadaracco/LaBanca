@@ -3,6 +3,7 @@ import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @Entity()
 export class Expedient extends BaseEntity {
+
   @PrimaryColumn()
   expedientNumber: number;
 
@@ -16,7 +17,7 @@ export class Expedient extends BaseEntity {
   active: boolean;
 
   
-  @ManyToOne(type => SubAgent, subAgent => subAgent.id)
+  @ManyToOne(type => SubAgent, subAgent => subAgent.expedient)
   subAgent: SubAgent;
  
 }
