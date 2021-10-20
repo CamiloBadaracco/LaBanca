@@ -9,8 +9,7 @@ import { AddressRepository } from '../infrastructure/repository/address.reposito
 
 @Injectable()
 export class AddressService {
-  constructor(@InjectRepository(AddressRepository)private addressRepository: AddressRepository,
-              @InjectRepository(SubAgentService) private subAgentService: SubAgentService ) {}
+  constructor(@InjectRepository(AddressRepository)private addressRepository: AddressRepository, private subAgentService: SubAgentService ) {}
 
   async getAllAddresss(): Promise<Address[]> {
     return this.addressRepository.getAddresss();
@@ -42,11 +41,13 @@ export class AddressService {
     //Si hay address viva, hago update para cambiar de estado
     if (address) {
       address.active = false;
-      this.addressRepository.updateStateAddress(address);
+     let addressModificada =  this.addressRepository.updateStateAddress(address);
+     console.log('Modificada : ' + (await addressModificada).department)
+
     }
 
- 
-    
+
+     
     //Creo nueva addres
     return await this.addressRepository.createAddress( createAddressDto);
   }
