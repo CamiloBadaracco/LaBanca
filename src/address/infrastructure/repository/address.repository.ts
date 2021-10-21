@@ -67,7 +67,7 @@ export class AddressRepository extends Repository<Address> {
     address.streetName = streetName;
     address.apto = apto;
     address.observation = observation;
-    address.active = false;
+    address.active = active;
     
     await address.save();
     return address;

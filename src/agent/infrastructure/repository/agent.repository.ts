@@ -30,12 +30,13 @@ export class AgentRepository extends Repository<Agent> {
     const { id,agencyNumber, orden, zone, mail, active } = updateAgentDto;
 
     const agent = new Agent();
-    agent.id = id;
+    
+    agent.id = parseInt(id.toString());
     agent.agencyNumber = agencyNumber;
     agent.orden = orden;
     agent.zone = zone;
     agent.mail = mail;
-    agent.active = active;
+    agent.active = true;
     await agent.save();
     return agent;
   }

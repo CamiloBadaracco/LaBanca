@@ -56,17 +56,16 @@ export class AgentService {
 
     if (!found) {
       throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
-    }
+    } 
 
-  
+ 
 
     if (!found.active) {
        updateAgentDto.active= true;
     }else{
        updateAgentDto.active= false;
     }
-    
-    
+     
     updateAgentDto.id=found.id;
 
     return await this.agentRepository.updateStateAgent(updateAgentDto);
