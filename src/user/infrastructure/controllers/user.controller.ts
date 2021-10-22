@@ -31,6 +31,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
       return this.userService.updateUser(updateUserDto);
     }
 
+
+
+    @Put('/changePassword')
+    changePassword(@Body() updateUserDto: UpdateUserDto): Promise<User> {
+      return this.userService.changePassword(updateUserDto);
+      
+    }
+
+
+
     @Delete('/:userName')
     deleteUser(@Param('userName') userName: string):Promise<User>{
       return this.userService.deleteUser(userName);

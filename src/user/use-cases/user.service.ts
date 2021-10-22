@@ -43,9 +43,30 @@ export class UserService {
     }
     
     updateUserDto.id = found.id;
+    updateUserDto.pass = found.pass;
+
     return await this.userRepository.updateUser(updateUserDto);
   }
   
+
+  
+  async changePassword(updateUserDto: UpdateUserDto): Promise<User> {
+    
+    let userName = updateUserDto.userName;
+
+    const found = await this.userRepository.findOne({ where: { userName } });
+
+    if (!found) {
+      throw new NotFoundException(`User with userName "${userName}" not found`);
+    }
+    
+     
+    found.pass = updateUserDto.pass;
+
+    return await this.userRepository.updateUser(found);
+  }
+  
+ 
   async deleteUser(userName: string): Promise<User>{
     const found = await this.userRepository.findOne({ where: { userName } });
 

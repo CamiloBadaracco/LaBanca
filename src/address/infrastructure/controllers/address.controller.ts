@@ -12,6 +12,7 @@ import { CreateAddressDto } from './dto/create-address.dto';
 import { Address } from '../../domain/address.entity';
 import { AddressService } from '../../use-cases/address.service';
 import { UpdateAddressDto } from './dto/update-address.dto';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @Controller('address')
 export class AddressController {
@@ -28,7 +29,8 @@ export class AddressController {
   }
 
   @Post()
-  createAddress(@Body() createAddressDto: CreateAddressDto): Promise<Address> {
+  createAddress(@Body() createAddressDto: CreateAddressDto): Promise<SubAgent> {
+     
     return this.addresssService.createAddress(createAddressDto);
   }
 

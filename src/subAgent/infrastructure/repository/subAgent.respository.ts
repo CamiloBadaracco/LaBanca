@@ -75,7 +75,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
     provisorioAgregar.push(provisorio);  
     subAgent.provisorio=provisorioAgregar;
 
- 
+
 
     await subAgent.save();
     return subAgent;

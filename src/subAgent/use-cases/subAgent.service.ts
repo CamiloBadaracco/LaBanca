@@ -13,8 +13,7 @@ export class SubAgentService {
   ) {}
 
  
- 
- 
+
   async getAllSubAgents(): Promise<SubAgent[]> {
     return this.subAgentRepository.getSubAgents();
   }
@@ -22,13 +21,20 @@ export class SubAgentService {
  
 async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
   const found = await this.subAgentRepository.findOne({
-    where:[{ subAgencyNumber }, { active: true }],
+    where:{ subAgencyNumber },
     relations: ['address','provisorio','expedient']
   });
 
+
+  
   if (!found) {
     throw new NotFoundException(`SubAgent with subAgencyNumber "${subAgencyNumber}" not found`);
   }
+
+  found.address = found.address.filter((adr) => adr.active == true);
+  found.expedient = found.expedient.filter((exp) => exp.active == true);
+  found.provisorio = found.provisorio.filter((pro) => pro.active == true);
+
   return found;
 }
 

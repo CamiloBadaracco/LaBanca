@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
+import { CreateSubAgenttDto } from 'src/subAgent/infrastructure/controllers/dto/create-subAgent.dto';
 import { SubAgentService } from 'src/subAgent/use-cases/subAgent.service';
 import { Address } from '../domain/address.entity';
 import { CreateAddressDto } from '../infrastructure/controllers/dto/create-address.dto';
@@ -25,7 +27,7 @@ export class AddressService {
     return found;
   }
 
-  async createAddress( createAddressDto: CreateAddressDto): Promise<Address> {
+  async createAddress( createAddressDto: CreateAddressDto): Promise<SubAgent> {
 
   
     //NumeroSubAgency
@@ -33,23 +35,57 @@ export class AddressService {
     console.log('SubAgency recibido: '+ subAgencyNumber);
 
     //Obtengo SubAgente por numero de sub agente y me quedo con la address viva.
-    let address =  await (await this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber)).address[0];
+    let subagent =  await this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber);
 
-  
-    console.log(address.department);
- 
+   
+    
     //Si hay address viva, hago update para cambiar de estado
-    if (address) {
-      address.active = false;
-     let addressModificada =  this.addressRepository.updateStateAddress(address);
-     console.log('Modificada : ' + (await addressModificada).department)
-
+    if (subagent.address.length > 0 ) 
+    {
+      subagent.address.filter(addr => addr.active == true ).forEach(addr => {
+        addr.active = false;  
+      
+        this.addressRepository.updateStateAddress(addr);
+      });
     }
-
-
+ 
+ 
+    const objAdd = new Address();
+    objAdd.id = 0;
+    objAdd.location = createAddressDto.location;
+    objAdd.department= createAddressDto.department;
+    objAdd.active = true;
+    objAdd.streetName =createAddressDto.streetName;
+    objAdd.streetNumber = createAddressDto.streetNumber;
+    objAdd.apto=createAddressDto.apto;
+    objAdd.observation = createAddressDto.observation; 
      
-    //Creo nueva addres
-    return await this.addressRepository.createAddress( createAddressDto);
+  
+    var addressAgregar = new Array<Address>();
+    addressAgregar.push(objAdd);  
+    subagent.address = addressAgregar;
+ 
+
+    const createSubAgentDto= new  CreateSubAgenttDto();
+    createSubAgentDto.subAgencyNumber = subagent.subAgencyNumber;
+    createSubAgentDto.documentNumber = subagent.documentNumber;
+    createSubAgentDto.name = subagent.name;
+    createSubAgentDto.passportPhoto = subagent.passportPhoto;
+    createSubAgentDto.certificateGoodConduct = subagent.certificateGoodConduct;
+    createSubAgentDto.rut = subagent.rut;
+    createSubAgentDto.literalE = subagent.literalE;
+    createSubAgentDto.patentNumber = subagent.patentNumber;
+    createSubAgentDto.certificateNumber = subagent.certificateNumber;
+    createSubAgentDto.resolutionNumber = subagent.resolutionNumber;
+    createSubAgentDto.address =  objAdd;
+    createSubAgentDto.expedient =  subagent.expedient[0];
+    createSubAgentDto.provisorio =  subagent.provisorio[0];
+ 
+    //Creo nuevo subAgentConAddress
+    return await this.subAgentService.createSubAgent(createSubAgentDto);
+    
+  
+
   }
 
   

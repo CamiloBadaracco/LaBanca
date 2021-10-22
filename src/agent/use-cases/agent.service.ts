@@ -14,15 +14,36 @@ export class AgentService {
   ) {}
 
   async getAllAgents(): Promise<Agent[]> {
-    return this.agentRepository.getAgents();
+    return (await this.agentRepository.getAgents()).sort( (a,b)=>{
+      let fa = a.agencyNumber.toLowerCase(),
+          fb = b.agencyNumber.toLowerCase();
+    
+    
+      if( fa < fb)
+      {
+        return 1;
+      }
+      else if(fb < fa)
+      {
+        return -1;
+      }
+      return 0;
+    });
+
   }
 
   async getAgentById(agencyNumber: string): Promise<Agent> {
-    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+    const found = await this.agentRepository.findOne({ where: { agencyNumber} ,
+  
+     });
+
+     
 
     if (!found) {
       throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
     }
+
+ 
 
     return found;
   }
