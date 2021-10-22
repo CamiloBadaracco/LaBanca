@@ -13,6 +13,7 @@ export class AgentService {
     private agentRepository: AgentRepository,
   ) {}
 
+  /*
   async getAllAgents(): Promise<Agent[]> {
     return (await this.agentRepository.getAgents()).sort( (a,b)=>{
       let fa = a.agencyNumber.toLowerCase(),
@@ -30,7 +31,19 @@ export class AgentService {
       return 0;
     });
 
-  }
+  }*/
+
+
+
+  async getAllAgents(): Promise<Agent[]> {
+    return (await this.agentRepository.getAgents())
+  };
+
+  
+  async getEnableAgents(): Promise<Agent[]> {
+    return (await this.agentRepository.getEnableAgents())
+  };
+
 
   async getAgentById(agencyNumber: string): Promise<Agent> {
     const found = await this.agentRepository.findOne({ where: { agencyNumber} ,

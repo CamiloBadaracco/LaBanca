@@ -22,6 +22,12 @@ export class AgentController {
     return this.agentsService.getAllAgents();
   }
 
+  @Get('/getEnableAgents')
+  getEnableAgents(): Promise<Agent[]> {
+    return this.agentsService.getEnableAgents();
+  }
+
+
   @Get('/:agencyNumber')
   getAgentById(@Param('agencyNumber') agencyNumber: string): Promise<Agent> {
     return this.agentsService.getAgentById(agencyNumber);

@@ -1,16 +1,27 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, TreeChildren } from 'typeorm';
 import { CreateAgentDto } from '../controllers/dto/create-agent.dto';
 import { Agent } from '../../domain/agent.entity';
 import { UpdateAgentDto } from '../controllers/dto/update-agent.dto';
 
 @EntityRepository(Agent)
 export class AgentRepository extends Repository<Agent> {
+  
   async getAgents(): Promise<Agent[]> {
-    const query = this.createQueryBuilder('agent');
+    const query = this.createQueryBuilder("agent")
+                      
 
     const agents = await query.getMany();
     return agents;
   }
+
+  async getEnableAgents(): Promise<Agent[]> {
+    const query = this.createQueryBuilder("agent")
+                      .where("agent.active = true")
+
+    const agents = await query.getMany();
+    return agents;
+  }
+
 
   async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
     const { agencyNumber, orden, zone, mail, active } = createAgentDto;
