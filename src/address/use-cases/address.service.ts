@@ -51,7 +51,7 @@ export class AddressService {
  
  
     const objAdd = new Address();
-    objAdd.id = 0;
+    objAdd.id = 10000;
     objAdd.location = createAddressDto.location;
     objAdd.department= createAddressDto.department;
     objAdd.active = true;
@@ -60,13 +60,9 @@ export class AddressService {
     objAdd.apto=createAddressDto.apto;
     objAdd.observation = createAddressDto.observation; 
      
-  
-    var addressAgregar = new Array<Address>();
-    addressAgregar.push(objAdd);  
-    subagent.address = addressAgregar;
- 
-
+   
     const createSubAgentDto= new  CreateSubAgenttDto();
+ 
     createSubAgentDto.subAgencyNumber = subagent.subAgencyNumber;
     createSubAgentDto.documentNumber = subagent.documentNumber;
     createSubAgentDto.name = subagent.name;
@@ -79,12 +75,14 @@ export class AddressService {
     createSubAgentDto.address =  objAdd;
     createSubAgentDto.expedient =  subagent.expedient[0];
     createSubAgentDto.provisorio =  subagent.provisorio[0];
+    console.log(createAddressDto.subAgencyNumber);
  
+    let subAgentResul = null;
     //Creo nuevo subAgentConAddress
-    return await this.subAgentService.createSubAgent(createSubAgentDto);
-    
+      subAgentResul = await this.subAgentService.createSubAgent(createSubAgentDto);
+      return subagent;
   
-
+ 
   }
 
   

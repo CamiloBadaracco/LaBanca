@@ -53,7 +53,12 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
  
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    return await this.subAgentRepository.createSubAgent(createSubAgentDto);
+
+    const found = this.getSubAgentBySubAgencyNumber(createSubAgentDto.subAgencyNumber);
+    let id = (await found).id;
+    return await this.subAgentRepository.createSubAgent(id,createSubAgentDto);
+
+
   }
 
   
