@@ -76,7 +76,6 @@ export class AddressService {
     createSubAgentDto.literalE = subagent.literalE;
     createSubAgentDto.patentNumber = subagent.patentNumber;
     createSubAgentDto.certificateNumber = subagent.certificateNumber;
-    createSubAgentDto.resolutionNumber = subagent.resolutionNumber;
     createSubAgentDto.address =  objAdd;
     createSubAgentDto.expedient =  subagent.expedient[0];
     createSubAgentDto.provisorio =  subagent.provisorio[0];

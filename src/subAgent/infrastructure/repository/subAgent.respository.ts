@@ -30,13 +30,15 @@ export class SubAgentRepository extends Repository<SubAgent> {
  
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    const { subAgencyNumber,documentNumber, name,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,resolutionNumber,address,expedient,provisorio} = createSubAgentDto;
+    const { subAgencyNumber,documentNumber, name, documentIdPhoto, formNineHundred, passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument,address,expedient,provisorio} = createSubAgentDto;
 
     const subAgent = new SubAgent();
 
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
     subAgent.name = name;
+    subAgent.documentIdPhoto=documentIdPhoto;
+    subAgent.formNineHundred=formNineHundred;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
     subAgent.dateOfUpdate = null;
@@ -44,21 +46,17 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
     subAgent.certificateNumber = certificateNumber;
-    subAgent.resolutionNumber = resolutionNumber;
+
+
+    subAgent.enabledDocument = enabledDocument;
+    subAgent.cesantiaDocument = cesantiaDocument;
+    subAgent.changeAddressDocument = changeAddressDocument;
+     
+
+
     subAgent.active =true;
 
-    //#region  Mapeo Addres no necesario.
- //No es necesario el mappero 
-  /*  const objAdd = new Address();
-    objAdd.id = address.id;
-    objAdd.location = address.location;
-    objAdd.department= address.department;
-    objAdd.active = true;
-    objAdd.streetName =address.streetName;
-    objAdd.streetNumber = address.streetNumber;
-    objAdd.apto=address.apto;
-    objAdd.observation = address.observation;*/
-     //#endregion
+ 
  
     var addressAgregar = new Array<Address>();
     addressAgregar.push(address);  
@@ -84,20 +82,25 @@ export class SubAgentRepository extends Repository<SubAgent> {
 
   
   async updateSubAgent(createSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
-    const { subAgencyNumber,documentNumber, name,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,resolutionNumber} = createSubAgentDto;
+    const { subAgencyNumber,documentNumber, name,documentIdPhoto,formNineHundred,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument} = createSubAgentDto;
 
     const subAgent = new SubAgent();
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
     subAgent.name = name;
+    subAgent.documentIdPhoto=documentIdPhoto;
+    subAgent.formNineHundred=formNineHundred;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
     subAgent.rut = rut;
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
     subAgent.certificateNumber = certificateNumber;
-    subAgent.resolutionNumber = resolutionNumber;
  
+    subAgent.enabledDocument = enabledDocument;
+    subAgent.cesantiaDocument = cesantiaDocument;
+    subAgent.changeAddressDocument = changeAddressDocument;
+     
 
     await subAgent.save();
     return subAgent;
@@ -115,7 +118,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
   
   
   async updateStateSubAgent(subAgentUpdt:SubAgent ) : Promise<SubAgent> {
-    const { id,subAgencyNumber,documentNumber,name,passportPhoto,certificateGoodConduct,dateOfUpdate,rut,literalE,patentNumber,certificateNumber,resolutionNumber,active} = subAgentUpdt;
+    const { id,subAgencyNumber,documentNumber,name,documentIdPhoto,formNineHundred,passportPhoto,certificateGoodConduct,dateOfUpdate,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument,active} = subAgentUpdt;
 
 
     const subAg = new SubAgent();
@@ -124,6 +127,8 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAg.subAgencyNumber= subAgencyNumber;
     subAg.documentNumber= documentNumber;
     subAg.name= name;
+    subAg.documentIdPhoto=documentIdPhoto;
+    subAg.formNineHundred=formNineHundred;
     subAg.passportPhoto= passportPhoto;
     subAg.certificateGoodConduct= certificateGoodConduct;
     subAg.dateOfUpdate= dateOfUpdate;
@@ -131,7 +136,10 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAg.literalE= literalE;
     subAg.patentNumber= patentNumber;
     subAg.certificateNumber= certificateNumber;
-    subAg.resolutionNumber= resolutionNumber;
+    subAg.enabledDocument = enabledDocument;
+    subAg.cesantiaDocument = cesantiaDocument;
+    subAg.changeAddressDocument = changeAddressDocument;
+     
     subAg.active= active;
  
     await subAg.save();

@@ -13,16 +13,24 @@ export class UpdateSubAgentDto {
   name: string;
 
   @IsNotEmpty()
+  documentIdPhoto: string;
+
+  @IsNotEmpty()
+  formNineHundred: string;
+
+  @IsNotEmpty()
   passportPhoto: string;
 
   @IsNotEmpty()
   certificateGoodConduct: string;
+
+  
  
   @IsNotEmpty()
   rut: string;
 
   @IsNotEmpty()
-  literalE: string;
+  literalE: boolean;
 
   @IsNotEmpty()
   patentNumber: string;
@@ -31,7 +39,16 @@ export class UpdateSubAgentDto {
   certificateNumber: string;
 
   @IsNotEmpty()
-  resolutionNumber: string;
+  enabledDocument: string;
+
+  @IsNotEmpty()
+  cesantiaDocument: string;
+
+  @IsNotEmpty()
+  changeAddressDocument: string;
+
+
+ 
   
 
 }

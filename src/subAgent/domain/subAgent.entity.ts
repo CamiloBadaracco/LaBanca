@@ -19,6 +19,14 @@ export class SubAgent extends BaseEntity {
   @Column({unique: true})
   name: string;
 
+  @Column({nullable: true })
+  documentIdPhoto: string;
+
+  
+  @Column({nullable: true })
+  formNineHundred: string;
+
+   
   @Column({ nullable: true })
   passportPhoto: string;
 
@@ -32,7 +40,7 @@ export class SubAgent extends BaseEntity {
   rut: string;
 
   @Column({ nullable: true  })
-  literalE: string;
+  literalE: boolean;
 
   @Column({ nullable: true  })
   patentNumber: string;
@@ -40,15 +48,23 @@ export class SubAgent extends BaseEntity {
   @Column({ nullable: true  })
   certificateNumber: string;
 
+ 
   @Column({ nullable: true  })
-  resolutionNumber: string;
+  enabledDocument: string;
+
+  @Column({ nullable: true  })
+  cesantiaDocument: string;
+
+  @Column({ nullable: true  })
+  changeAddressDocument: string;
+
+  
 
   @Column({ nullable: true })
   active: boolean;
 
 
-
- 
+  
 
 
   @ManyToOne(type => Agent, agent => agent.id)

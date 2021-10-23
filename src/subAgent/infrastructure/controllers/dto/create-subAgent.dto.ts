@@ -15,6 +15,13 @@ export class CreateSubAgenttDto {
   name: string;
 
   @IsNotEmpty()
+  documentIdPhoto: string;
+
+    
+  @IsNotEmpty()
+  formNineHundred: string;
+  
+  @IsNotEmpty()
   passportPhoto: string;
 
   @IsNotEmpty()
@@ -24,19 +31,28 @@ export class CreateSubAgenttDto {
   rut: string;
 
   @IsNotEmpty()
-  literalE: string;
+  literalE: boolean;
 
   @IsNotEmpty()
   patentNumber: string;
 
   @IsNotEmpty()
   certificateNumber: string;
+ 
+
+   
+  @IsNotEmpty()
+  enabledDocument: string;
 
   @IsNotEmpty()
-  resolutionNumber: string;
+  cesantiaDocument: string;
+
+  @IsNotEmpty()
+  changeAddressDocument: string;
 
 
-  
+
+
   @IsNotEmpty()
   address: Address;
   

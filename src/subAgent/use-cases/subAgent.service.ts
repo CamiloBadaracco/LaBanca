@@ -86,6 +86,8 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
     subAgentUpdate.subAgencyNumber= found.subAgencyNumber;
     subAgentUpdate.documentNumber= found.documentNumber;
     subAgentUpdate.name= found.name;
+    subAgentUpdate.documentIdPhoto = found.documentIdPhoto;
+    subAgentUpdate.formNineHundred=found.formNineHundred;
     subAgentUpdate.passportPhoto= found.passportPhoto;
     subAgentUpdate.certificateGoodConduct= found.certificateGoodConduct;
     subAgentUpdate.dateOfUpdate= found.dateOfUpdate;
@@ -93,7 +95,6 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
     subAgentUpdate.literalE= found.literalE;
     subAgentUpdate.patentNumber= found.patentNumber;
     subAgentUpdate.certificateNumber= found.certificateNumber;
-    subAgentUpdate.resolutionNumber= found.resolutionNumber;
     subAgentUpdate.active= stateUpdating;
   
  
