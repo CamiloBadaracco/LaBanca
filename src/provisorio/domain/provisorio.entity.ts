@@ -16,6 +16,11 @@ export class Provisorio extends BaseEntity {
   active: boolean;
 
   
+  @Column({  type: 'timestamp without time zone', default: 'NOW()'  })
+  dateOfUpdated: Date;
+ 
+
+  
   @ManyToOne(type => SubAgent, subAgent => subAgent.provisorio)
   subAgent: SubAgent;
  

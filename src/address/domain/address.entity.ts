@@ -25,10 +25,14 @@ export class Address extends BaseEntity {
   @Column({ nullable: true })
   observation: string;
  
+
    
   @Column()
   active: boolean;
 
+  @Column({  type: 'timestamp without time zone', default: 'NOW()'  })
+  dateOfUpdated: Date;
+ 
   
  
   @ManyToOne(type => SubAgent, subAgent => subAgent.address)

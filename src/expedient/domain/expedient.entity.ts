@@ -16,6 +16,10 @@ export class Expedient extends BaseEntity {
   @Column()
   active: boolean;
 
+  @Column({  type: 'timestamp without time zone', default: 'NOW()'  })
+  dateOfUpdated: Date;
+ 
+  
   
   @ManyToOne(type => SubAgent, subAgent => subAgent.expedient)
   subAgent: SubAgent;

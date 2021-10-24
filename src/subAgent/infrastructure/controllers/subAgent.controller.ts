@@ -30,7 +30,7 @@ import { Console } from 'console';
 
     @Post()
     createSubAgent(@Body() createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-   
+      console.log("controller:  " + createSubAgentDto.subAgencyNumber);
       return this.subAgentService.createSubAgent(createSubAgentDto);
       
     }

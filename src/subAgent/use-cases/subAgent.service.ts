@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isEmpty } from 'class-validator';
+import { IsNull } from 'typeorm';
 import { SubAgent } from '../domain/subAgent.entity';
 import { CreateSubAgenttDto } from '../infrastructure/controllers/dto/create-subAgent.dto';
 import { UpdateSubAgentDto } from '../infrastructure/controllers/dto/update-subAgent.dto';
@@ -28,6 +30,7 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
 
   
   if (!found) {
+    return null;
     throw new NotFoundException(`SubAgent with subAgencyNumber "${subAgencyNumber}" not found`);
   }
 
@@ -53,12 +56,18 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
  
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-
-    const found = this.getSubAgentBySubAgencyNumber(createSubAgentDto.subAgencyNumber);
-    let id = (await found).id;
+ 
+    let id = 0;
+    const found = await this.getSubAgentBySubAgencyNumber(createSubAgentDto.subAgencyNumber);
+ 
+    
+    if(found) {
+       id =  found.id;
+    }
+ 
     return await this.subAgentRepository.createSubAgent(id,createSubAgentDto);
 
-
+ 
   }
 
   

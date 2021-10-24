@@ -61,6 +61,7 @@ export class ProvisorioService {
     provUpdate.url             =  found.url;
     provUpdate.observation     =  found.observation;
     provUpdate.active          =  stateUpdating;
+    provUpdate.dateOfUpdated   = found.dateOfUpdated;
  
       
     return await this.provisorioRepository.updateStateProvisorio(provUpdate);

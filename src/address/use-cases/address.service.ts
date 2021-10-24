@@ -51,7 +51,7 @@ export class AddressService {
  
  
     const objAdd = new Address();
-    objAdd.id = 10000;
+    objAdd.id = 0;
     objAdd.location = createAddressDto.location;
     objAdd.department= createAddressDto.department;
     objAdd.active = true;
@@ -75,7 +75,7 @@ export class AddressService {
     createSubAgentDto.address =  objAdd;
     createSubAgentDto.expedient =  subagent.expedient[0];
     createSubAgentDto.provisorio =  subagent.provisorio[0];
-    console.log(createAddressDto.subAgencyNumber);
+ 
  
     let subAgentResul = null;
     //Creo nuevo subAgentConAddress
@@ -120,6 +120,7 @@ export class AddressService {
     addUpdate.streetNumber   =  found.streetNumber;
     addUpdate.apto           =  found.apto;
     addUpdate.active         =  stateUpdating;
+    addUpdate.dateOfUpdated  = found.dateOfUpdated;
 
  
       

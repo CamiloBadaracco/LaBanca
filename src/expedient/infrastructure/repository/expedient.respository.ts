@@ -20,6 +20,7 @@ export class ExpedientRepository extends Repository<Expedient> {
     expedient.url = url;
     expedient.observation = observation;
     expedient.active = active;
+   
   
     await expedient.save();
     return expedient;
@@ -34,7 +35,7 @@ export class ExpedientRepository extends Repository<Expedient> {
     expedient.url = url;
     expedient.observation = observation;
     expedient.active = active;
-  
+ 
     await expedient.save();
     return expedient;
   }

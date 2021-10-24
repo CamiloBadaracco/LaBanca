@@ -33,7 +33,7 @@ export class SubAgent extends BaseEntity {
   @Column({ nullable: true  })
   certificateGoodConduct: string;
 
-  @Column({ nullable: true  })
+  @Column({  type: 'timestamp without time zone', default: 'NOW()'  })
   dateOfUpdate: Date;
 
   @Column({ nullable: true  })
@@ -96,6 +96,6 @@ export class SubAgent extends BaseEntity {
   
   
   
- 
+  
 }
- 
+   

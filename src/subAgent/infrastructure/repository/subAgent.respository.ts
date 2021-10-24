@@ -34,6 +34,8 @@ export class SubAgentRepository extends Repository<SubAgent> {
 
     const subAgent = new SubAgent();
 
+
+     
     subAgent.id= idParam;
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
@@ -42,7 +44,9 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAgent.formNineHundred=formNineHundred;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
-    subAgent.dateOfUpdate = null;
+    
+  
+    
     subAgent.rut = rut;
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
@@ -52,9 +56,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
     subAgent.enabledDocument = enabledDocument;
     subAgent.cesantiaDocument = cesantiaDocument;
     subAgent.changeAddressDocument = changeAddressDocument;
-     
-
-
+      
     subAgent.active =true;
 
  

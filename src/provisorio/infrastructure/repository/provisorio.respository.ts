@@ -19,6 +19,7 @@ export class ProvisorioRepository extends Repository<Provisorio> {
     provisorio.url = url;
     provisorio.observation = observation;
     provisorio.active = active;
+    provisorio.dateOfUpdated = new Date();
   
     await provisorio.save();
     return provisorio;
@@ -33,6 +34,7 @@ export class ProvisorioRepository extends Repository<Provisorio> {
     provisorio.url = url;
     provisorio.observation = observation;
     provisorio.active = active;
+    //provisorio.dateOfUpdated =dateOfUpdated;
   
     await provisorio.save();
     return provisorio;
@@ -48,13 +50,15 @@ export class ProvisorioRepository extends Repository<Provisorio> {
 
   
   async updateStateProvisorio(provisorioUpdt:Provisorio ) : Promise<Provisorio> {
-    const { id, url, observation, active  } = provisorioUpdt;
+    const { id, url, observation, active, dateOfUpdated  } = provisorioUpdt;
 
     const prov = new Provisorio();
     prov.id = id;
     prov.url = url;
     prov.observation = observation;
     prov.active = active;
+    prov.dateOfUpdated = dateOfUpdated;
+    
     
     await prov.save();
     return prov;
