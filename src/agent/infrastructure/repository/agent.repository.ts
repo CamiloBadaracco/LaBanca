@@ -34,7 +34,7 @@ export class AgentRepository extends Repository<Agent> {
     agent.active = active;
     await agent.save();
     return agent;
-  }
+  } 
 
   
   async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {

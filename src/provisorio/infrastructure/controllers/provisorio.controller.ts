@@ -12,6 +12,8 @@ import {
   import { UpdateProvisorioDto } from './dto/update-provisorio.dto';
   import { Provisorio } from '../../domain/provisorio.entity';
   import { ProvisorioService } from '../../use-cases/provisorio.service';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
+import { Console } from 'console';
 
   
   @Controller('provisorio')
@@ -29,13 +31,15 @@ import {
     }
   
     @Post()
-    createProvisorio(@Body() createProvisorioDto: CreateProvisoriotDto): Promise<Provisorio> {
+    createProvisorio(@Body() createProvisorioDto: CreateProvisoriotDto): Promise<SubAgent> {
+  
       return this.provisorioService.createProvisorio(createProvisorioDto);
     }
 
       
     @Put()
     updateProvisorio(@Body() updateProvisorioDto: UpdateProvisorioDto): Promise<Provisorio> {
+     
       return this.provisorioService.updateProvisorio(updateProvisorioDto);
     }
 

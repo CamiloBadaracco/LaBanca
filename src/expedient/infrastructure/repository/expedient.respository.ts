@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { CreateExpedientDto } from '../controllers/dto/create-expedient.dto';
 import { Expedient } from '../../domain/expedient.entity';
 import { UpdateExpedientDto } from '../controllers/dto/update-expedient.dto';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
 
 @EntityRepository(Expedient)
 export class ExpedientRepository extends Repository<Expedient> {
@@ -11,8 +12,8 @@ export class ExpedientRepository extends Repository<Expedient> {
     const agents = await query.getMany();
     return agents;
   }
-
-  async createExpedient(createExpedientDto: CreateExpedientDto): Promise<Expedient> {
+/* -- se da de alta por medio de sub agent no se utiliza
+  async createExpedient(createExpedientDto: CreateExpedientDto): Promise<SubAgent> {
     const {expedientNumber,url,observation,active } = createExpedientDto;
 
     const expedient = new Expedient();
@@ -21,10 +22,10 @@ export class ExpedientRepository extends Repository<Expedient> {
     expedient.observation = observation;
     expedient.active = active;
    
-  
     await expedient.save();
     return expedient;
-  }
+ 
+  }*/
 
   
   async updateExpedient(updateExpedientDto: UpdateExpedientDto): Promise<Expedient> {

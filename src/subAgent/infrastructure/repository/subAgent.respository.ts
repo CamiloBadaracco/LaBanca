@@ -20,12 +20,12 @@ export class SubAgentRepository extends Repository<SubAgent> {
   async getSubAgentById(): Promise<SubAgent[]> {
     const query = this.createQueryBuilder('subAgent')
       .leftJoinAndSelect('subAgent.address', 'address')
-
+ 
     const agents = await query.getMany();
     return agents;
-  }
+  } 
 
-
+ 
  
  
 

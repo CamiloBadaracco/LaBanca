@@ -12,6 +12,7 @@ import {
   import { Expedient } from '../../domain/expedient.entity';
   import { ExpedientService } from '../../use-cases/expedient.service';
 import { UpdateExpedientDto } from './dto/update-expedient.dto';
+import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
   
   @Controller('expedient')
   export class ExpedientController {
@@ -28,7 +29,8 @@ import { UpdateExpedientDto } from './dto/update-expedient.dto';
     }
   
     @Post()
-    createExpedient(@Body() createExpedientDto: CreateExpedientDto): Promise<Expedient> {
+    createExpedient(@Body() createExpedientDto: CreateExpedientDto): Promise<SubAgent> {
+ 
       return this.expedientService.createExpedient(createExpedientDto);
     }
 
