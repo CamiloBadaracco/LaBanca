@@ -33,7 +33,7 @@ export class AgentService {
 
   }*/
 
-
+ 
 
   async getAllAgents(): Promise<Agent[]> {
     return (await this.agentRepository.getAgents())
@@ -74,7 +74,7 @@ export class AgentService {
   async deleteAgent(agencyNumber: string): Promise<Agent>{
     const found = await this.agentRepository.findOne({ where: { agencyNumber } });
 
-    if (!found) {
+    if (!found) { 
       throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
     }
 
@@ -98,8 +98,8 @@ export class AgentService {
        updateAgentDto.active= true;
     }else{
        updateAgentDto.active= false;
-    }
-     
+    } 
+      
     updateAgentDto.id=found.id;
 
     return await this.agentRepository.updateStateAgent(updateAgentDto);

@@ -123,7 +123,8 @@ export class SubAgentRepository extends Repository<SubAgent> {
   async updateStateSubAgent(subAgentUpdt:SubAgent ) : Promise<SubAgent> {
       const { id,subAgencyNumber,documentNumber,name,documentIdPhoto,formNineHundred,passportPhoto,certificateGoodConduct,dateOfUpdate,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument,active} = subAgentUpdt;
 
-
+      console.log("id: "+ id + "   subAgencyNumber" + subAgencyNumber)
+/*
       const subAg = new SubAgent();
       
       subAg.id= id;
@@ -143,9 +144,9 @@ export class SubAgentRepository extends Repository<SubAgent> {
       subAg.cesantiaDocument = cesantiaDocument;
       subAg.changeAddressDocument = changeAddressDocument;
       
-      subAg.active= active;
+      subAg.active= active;*/ 
   
-      await subAg.save();
-    return subAg;
-  }
-}
+      await subAgentUpdt.save();
+    return subAgentUpdt;
+  } 
+}  

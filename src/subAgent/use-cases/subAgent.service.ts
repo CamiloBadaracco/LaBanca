@@ -80,40 +80,23 @@ async getSubAgentBySubAgencyNumber(subAgencyNumber: string): Promise<SubAgent> {
   }
 
   
-  async updateStateSubAgent(id: number): Promise<SubAgent>{
+  async updateStateSubAgent(subAgencyNumber: string): Promise<SubAgent>{
     
-    const found = await this.subAgentRepository.findOne({ where: { id } });
+    const found = await this.subAgentRepository.findOne({ where: { subAgencyNumber } });
     if (!found) {
-      throw new NotFoundException(`SubAgent with ID "${id}" not found`);
+      throw new NotFoundException(`SubAgent with ID "${subAgencyNumber}" not found`);
     }
 
-    var stateUpdating= false;
-    if (found.active == false) {
-      var stateUpdating= true;
-    }
-
-     
-    var subAgentUpdate = new SubAgent();
-
-
-    subAgentUpdate.id= found.id;
-    subAgentUpdate.subAgencyNumber= found.subAgencyNumber;
-    subAgentUpdate.documentNumber= found.documentNumber;
-    subAgentUpdate.name= found.name;
-    subAgentUpdate.documentIdPhoto = found.documentIdPhoto;
-    subAgentUpdate.formNineHundred=found.formNineHundred;
-    subAgentUpdate.passportPhoto= found.passportPhoto;
-    subAgentUpdate.certificateGoodConduct= found.certificateGoodConduct;
-    subAgentUpdate.dateOfUpdate= found.dateOfUpdate;
-    subAgentUpdate.rut= found.rut;
-    subAgentUpdate.literalE= found.literalE;
-    subAgentUpdate.patentNumber= found.patentNumber;
-    subAgentUpdate.certificateNumber= found.certificateNumber;
-    subAgentUpdate.active= stateUpdating;
   
- 
-      
-    return await this.subAgentRepository.updateStateSubAgent(subAgentUpdate);
+    if (!found.active) {
+      found.active= true;
+   }else{
+      found.active= false;
+   }
+    
+    
+    return await this.subAgentRepository.updateStateSubAgent(found);
   }
 
 }
+ 

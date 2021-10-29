@@ -49,9 +49,9 @@ import { Console } from 'console';
     }
 
      
-    @Patch('/state/:id')
-    updateStateSubAgent(@Param('id') id: number) {
-    this.subAgentService.updateStateSubAgent(id);
+    @Put('/editStateSubAgent/:subAgencyNumber')
+    updateStateSubAgent(@Param('subAgencyNumber') subAgencyNumber: string) {
+    this.subAgentService.updateStateSubAgent(subAgencyNumber);
     }
   }
   
