@@ -1,130 +1,170 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { CreateSubAgenttDto } from '../controllers/dto/create-subAgent.dto';
-import { SubAgent } from '../../domain/subAgent.entity';
-import { UpdateSubAgentDto } from '../controllers/dto/update-subAgent.dto';
-import { Address } from 'src/address/domain/address.entity';
-import { Expedient } from 'src/expedient/domain/expedient.entity';
-import { Provisorio } from 'src/provisorio/domain/provisorio.entity';
+import { EntityRepository, Repository } from "typeorm";
+import { CreateSubAgenttDto } from "../controllers/dto/create-subAgent.dto";
+import { SubAgent } from "../../domain/subAgent.entity";
+import { UpdateSubAgentDto } from "../controllers/dto/update-subAgent.dto";
+import { Address } from "src/address/domain/address.entity";
+import { Expedient } from "src/expedient/domain/expedient.entity";
+import { Provisorio } from "src/provisorio/domain/provisorio.entity";
 
 @EntityRepository(SubAgent)
 export class SubAgentRepository extends Repository<SubAgent> {
   async getSubAgents(): Promise<SubAgent[]> {
-    const query = this.createQueryBuilder('subAgent');
+    const query = this.createQueryBuilder("subAgent")
+      .leftJoinAndSelect("subAgent.address", "address")
+      .leftJoinAndSelect("subAgent.expedient", "expedient")
+      .leftJoinAndSelect("subAgent.provisorio", "provisorio");
 
     const agents = await query.getMany();
     return agents;
   }
-
-
 
   async getSubAgentById(): Promise<SubAgent[]> {
-    const query = this.createQueryBuilder('subAgent')
-      .leftJoinAndSelect('subAgent.address', 'address')
- 
+    const query = this.createQueryBuilder("subAgent").leftJoinAndSelect(
+      "subAgent.address",
+      "address"
+    );
+
     const agents = await query.getMany();
     return agents;
-  } 
+  }
 
- 
- 
- 
-
-  async createSubAgent(idParam:number, createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    const { subAgencyNumber,documentNumber, name, documentIdPhoto, formNineHundred, passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument,address,expedient,provisorio} = createSubAgentDto;
+  async createSubAgent(
+    idParam: number,
+    createSubAgentDto: CreateSubAgenttDto
+  ): Promise<SubAgent> {
+    const {
+      subAgencyNumber,
+      documentNumber,
+      name,
+      documentIdPhoto,
+      formNineHundred,
+      passportPhoto,
+      certificateGoodConduct,
+      rut,
+      documentDGI,
+      literalE,
+      patentNumber,
+      certificateNumber,
+      enabledDocument,
+      cesantiaDocument,
+      changeAddressDocument,
+      address,
+      expedient,
+      provisorio,
+    } = createSubAgentDto;
 
     const subAgent = new SubAgent();
 
-
-     
-    subAgent.id= idParam;
+    subAgent.id = idParam;
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
     subAgent.name = name;
-    subAgent.documentIdPhoto=documentIdPhoto;
-    subAgent.formNineHundred=formNineHundred;
+    subAgent.documentIdPhoto = documentIdPhoto;
+    subAgent.formNineHundred = formNineHundred;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
-    
-  
-    
+
     subAgent.rut = rut;
+    subAgent.documentDGI = documentDGI;
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
     subAgent.certificateNumber = certificateNumber;
 
-
     subAgent.enabledDocument = enabledDocument;
     subAgent.cesantiaDocument = cesantiaDocument;
     subAgent.changeAddressDocument = changeAddressDocument;
-      
-    subAgent.active =true;
 
- 
- 
+    subAgent.active = true;
+
     var addressAgregar = new Array<Address>();
-    addressAgregar.push(address);  
-    subAgent.address=addressAgregar;
+    addressAgregar.push(address);
+    subAgent.address = addressAgregar;
 
-    
     var expedientAgregar = new Array<Expedient>();
-    expedientAgregar.push(expedient);  
-    subAgent.expedient=expedientAgregar;
+    expedientAgregar.push(expedient);
+    subAgent.expedient = expedientAgregar;
 
-  
-    
     var provisorioAgregar = new Array<Provisorio>();
-    provisorioAgregar.push(provisorio);  
-    subAgent.provisorio=provisorioAgregar;
-
-
+    provisorioAgregar.push(provisorio);
+    subAgent.provisorio = provisorioAgregar;
 
     await subAgent.save();
     return subAgent;
   }
 
-
-  
-  async updateSubAgent(createSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
-    const { subAgencyNumber,documentNumber, name,documentIdPhoto,formNineHundred,passportPhoto,certificateGoodConduct,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument} = createSubAgentDto;
+  async updateSubAgent(
+    createSubAgentDto: UpdateSubAgentDto
+  ): Promise<SubAgent> {
+    const {
+      subAgencyNumber,
+      documentNumber,
+      name,
+      documentIdPhoto,
+      formNineHundred,
+      passportPhoto,
+      certificateGoodConduct,
+      rut,
+      documentDGI,
+      literalE,
+      patentNumber,
+      certificateNumber,
+      enabledDocument,
+      cesantiaDocument,
+      changeAddressDocument,
+    } = createSubAgentDto;
 
     const subAgent = new SubAgent();
     subAgent.subAgencyNumber = subAgencyNumber;
     subAgent.documentNumber = documentNumber;
     subAgent.name = name;
-    subAgent.documentIdPhoto=documentIdPhoto;
-    subAgent.formNineHundred=formNineHundred;
+    subAgent.documentIdPhoto = documentIdPhoto;
+    subAgent.formNineHundred = formNineHundred;
     subAgent.passportPhoto = passportPhoto;
     subAgent.certificateGoodConduct = certificateGoodConduct;
     subAgent.rut = rut;
+    subAgent.documentDGI = documentDGI;
     subAgent.literalE = literalE;
     subAgent.patentNumber = patentNumber;
     subAgent.certificateNumber = certificateNumber;
- 
+
     subAgent.enabledDocument = enabledDocument;
     subAgent.cesantiaDocument = cesantiaDocument;
     subAgent.changeAddressDocument = changeAddressDocument;
-     
 
     await subAgent.save();
     return subAgent;
   }
 
-  
-  async deleteSubAgent(id: number ) : Promise<SubAgent> {
+  async deleteSubAgent(id: number): Promise<SubAgent> {
     const subAgent = new SubAgent();
-      await this.delete(id);
-      return subAgent;
+    await this.delete(id);
+    return subAgent;
   }
 
+  async updateStateSubAgent(subAgentUpdt: SubAgent): Promise<SubAgent> {
+    const {
+      id,
+      subAgencyNumber,
+      documentNumber,
+      name,
+      documentIdPhoto,
+      formNineHundred,
+      passportPhoto,
+      certificateGoodConduct,
+      dateOfUpdate,
+      rut,
+      documentDGI,
+      literalE,
+      patentNumber,
+      certificateNumber,
+      enabledDocument,
+      cesantiaDocument,
+      changeAddressDocument,
+      active,
+    } = subAgentUpdt;
 
-
-  
-  
-  async updateStateSubAgent(subAgentUpdt:SubAgent ) : Promise<SubAgent> {
-      const { id,subAgencyNumber,documentNumber,name,documentIdPhoto,formNineHundred,passportPhoto,certificateGoodConduct,dateOfUpdate,rut,literalE,patentNumber,certificateNumber,enabledDocument,cesantiaDocument,changeAddressDocument,active} = subAgentUpdt;
-
-      console.log("id: "+ id + "   subAgencyNumber" + subAgencyNumber)
-/*
+    console.log("id: " + id + "   subAgencyNumber" + subAgencyNumber);
+    /*
       const subAg = new SubAgent();
       
       subAg.id= id;
@@ -144,9 +184,9 @@ export class SubAgentRepository extends Repository<SubAgent> {
       subAg.cesantiaDocument = cesantiaDocument;
       subAg.changeAddressDocument = changeAddressDocument;
       
-      subAg.active= active;*/ 
-  
-      await subAgentUpdt.save();
+      subAg.active= active;*/
+
+    await subAgentUpdt.save();
     return subAgentUpdt;
-  } 
-}  
+  }
+}

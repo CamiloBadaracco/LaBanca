@@ -1,5 +1,11 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { SubAgent } from "src/subAgent/domain/subAgent.entity";
 
 @Entity()
 export class Provisorio extends BaseEntity {
@@ -15,14 +21,9 @@ export class Provisorio extends BaseEntity {
   @Column()
   active: boolean;
 
-  
-  @Column({  type: 'timestamp without time zone', default: 'NOW()'  })
+  @Column({ type: "timestamp", default: "NOW()" })
   dateOfUpdated: Date;
- 
 
-  
-  @ManyToOne(type => SubAgent, subAgent => subAgent.provisorio)
+  @ManyToOne((type) => SubAgent, (subAgent) => subAgent.provisorio)
   subAgent: SubAgent;
- 
 }
- 

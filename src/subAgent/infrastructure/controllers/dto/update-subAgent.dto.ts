@@ -1,8 +1,6 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 
 export class UpdateSubAgentDto {
-
-  
   @IsNotEmpty()
   subAgencyNumber: string;
 
@@ -24,10 +22,11 @@ export class UpdateSubAgentDto {
   @IsNotEmpty()
   certificateGoodConduct: string;
 
-  
- 
   @IsNotEmpty()
   rut: string;
+
+  @IsNotEmpty()
+  documentDGI: string;
 
   @IsNotEmpty()
   literalE: boolean;
@@ -46,9 +45,4 @@ export class UpdateSubAgentDto {
 
   @IsNotEmpty()
   changeAddressDocument: string;
-
-
- 
-  
-
 }
