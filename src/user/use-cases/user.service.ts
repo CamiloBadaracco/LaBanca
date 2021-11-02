@@ -1,15 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../domain/user.entity';
-import { CreateUsertDto } from '../infrastructure/controllers/dto/create-user.dto';
-import { UpdateUserDto } from '../infrastructure/controllers/dto/update-user.dto';
-import { UserRepository } from '../infrastructure/repository/user.respository';
+import { Controller, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { json } from "express";
+import { User } from "../domain/user.entity";
+import { CreateUsertDto } from "../infrastructure/controllers/dto/create-user.dto";
+import { UpdateUserDto } from "../infrastructure/controllers/dto/update-user.dto";
+import { UserRepository } from "../infrastructure/repository/user.respository";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    private userRepository: UserRepository
   ) {}
 
   async getAllUsers(): Promise<User[]> {
@@ -25,33 +26,28 @@ export class UserService {
 
     return found;
   }
- 
 
   async createUser(createUserDto: CreateUsertDto): Promise<User> {
+    console.log(createUserDto.pass);
     return await this.userRepository.createUser(createUserDto);
   }
 
-  
-  
   async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
-    const {id,name,lastName,userName,pass,mail} = updateUserDto;
+    const { id, name, lastName, userName, pass, mail } = updateUserDto;
 
     const found = await this.userRepository.findOne({ where: { userName } });
 
     if (!found) {
       throw new NotFoundException(`User with userName "${userName}" not found`);
     }
-    
+
     updateUserDto.id = found.id;
     updateUserDto.pass = found.pass;
 
     return await this.userRepository.updateUser(updateUserDto);
   }
-  
 
-  
   async changePassword(updateUserDto: UpdateUserDto): Promise<User> {
-    
     let userName = updateUserDto.userName;
 
     const found = await this.userRepository.findOne({ where: { userName } });
@@ -59,22 +55,32 @@ export class UserService {
     if (!found) {
       throw new NotFoundException(`User with userName "${userName}" not found`);
     }
-    
-     
+
     found.pass = updateUserDto.pass;
 
     return await this.userRepository.updateUser(found);
   }
-  
- 
-  async deleteUser(userName: string): Promise<User>{
+
+  async deleteUser(userName: string): Promise<User> {
     const found = await this.userRepository.findOne({ where: { userName } });
 
     if (!found) {
       throw new NotFoundException(`User with userName "${userName}" not found`);
     }
-    
-     return await this.userRepository.deleteUser(found.id);
+
+    return await this.userRepository.deleteUser(found.id);
   }
 
+  async login(userName: string, pass: string): Promise<User> {
+    const found = await this.userRepository.findOne({ where: { userName } });
+
+    if (found) {
+      console.log("usuario existente");
+      let user: User;
+      if (!found.checkPassword(pass)) {
+        throw new NotFoundException(`UserName or Password are  incorrect`);
+      }
+    }
+    return found;
+  }
 }
