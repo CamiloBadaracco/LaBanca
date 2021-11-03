@@ -1,27 +1,23 @@
-import { EntityRepository, Repository, TreeChildren } from 'typeorm';
-import { CreateAgentDto } from '../controllers/dto/create-agent.dto';
-import { Agent } from '../../domain/agent.entity';
-import { UpdateAgentDto } from '../controllers/dto/update-agent.dto';
+import { EntityRepository, Repository, TreeChildren } from "typeorm";
+import { CreateAgentDto } from "../controllers/dto/create-agent.dto";
+import { Agent } from "../../domain/agent.entity";
+import { UpdateAgentDto } from "../controllers/dto/update-agent.dto";
 
 @EntityRepository(Agent)
 export class AgentRepository extends Repository<Agent> {
-  
   async getAgents(): Promise<Agent[]> {
-    const query = this.createQueryBuilder("agent")
-                      
+    const query = this.createQueryBuilder("agent");
 
     const agents = await query.getMany();
     return agents;
   }
 
   async getEnableAgents(): Promise<Agent[]> {
-    const query = this.createQueryBuilder("agent")
-                      .where("agent.active = true")
+    const query = this.createQueryBuilder("agent").where("agent.active = true");
 
     const agents = await query.getMany();
     return agents;
   }
-
 
   async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
     const { agencyNumber, orden, zone, mail, active } = createAgentDto;
@@ -34,14 +30,13 @@ export class AgentRepository extends Repository<Agent> {
     agent.active = active;
     await agent.save();
     return agent;
-  } 
+  }
 
-  
   async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
-    const { id,agencyNumber, orden, zone, mail, active } = updateAgentDto;
+    const { id, agencyNumber, orden, zone, mail, active } = updateAgentDto;
 
     const agent = new Agent();
-    
+
     agent.id = parseInt(id.toString());
     agent.agencyNumber = agencyNumber;
     agent.orden = orden;
@@ -52,15 +47,14 @@ export class AgentRepository extends Repository<Agent> {
     return agent;
   }
 
-  
-  async deleteAgent(id: number ) : Promise<Agent> {
+  async deleteAgent(id: number): Promise<Agent> {
     const agent = new Agent();
-      await this.delete(id);
-      return agent;
+    await this.delete(id);
+    return agent;
   }
 
-  async updateStateAgent(agentUpdt:UpdateAgentDto ) : Promise<Agent> {
-    const { id,agencyNumber, orden, zone, mail, active  } = agentUpdt;
+  async updateStateAgent(agentUpdt: UpdateAgentDto): Promise<Agent> {
+    const { id, agencyNumber, orden, zone, mail, active } = agentUpdt;
 
     const agent = new Agent();
     agent.id = parseInt(id.toString());
@@ -70,9 +64,8 @@ export class AgentRepository extends Repository<Agent> {
     agent.mail = mail;
     agent.mail = mail;
     agent.active = active;
-    
+
     await agent.save();
     return agent;
   }
- 
 }

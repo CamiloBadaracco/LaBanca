@@ -1,9 +1,9 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn,JoinColumn  } from 'typeorm';
-import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { SubAgent } from "src/subAgent/domain/subAgent.entity";
+import { Notification } from "src/notification/domain/notification.entity";
 
 @Entity()
 export class Agent extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,8 +22,9 @@ export class Agent extends BaseEntity {
   @Column()
   active: boolean;
 
-  
-  @OneToMany(type => SubAgent, subAgent => subAgent.id)  
+  @OneToMany((type) => SubAgent, (subAgent) => subAgent.id)
   subAgents: SubAgent[];
-  
+
+  @OneToMany((type) => Notification, (notification) => notification.id)
+  notification: Notification[];
 }

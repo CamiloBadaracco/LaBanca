@@ -19,19 +19,13 @@ export class SubAgentRepository extends Repository<SubAgent> {
   }
 
   async getSubAgentById(): Promise<SubAgent[]> {
-    const query = this.createQueryBuilder("subAgent").leftJoinAndSelect(
-      "subAgent.address",
-      "address"
-    );
+    const query = this.createQueryBuilder("subAgent").leftJoinAndSelect("subAgent.address", "address");
 
     const agents = await query.getMany();
     return agents;
   }
 
-  async createSubAgent(
-    idParam: number,
-    createSubAgentDto: CreateSubAgenttDto
-  ): Promise<SubAgent> {
+  async createSubAgent(idParam: number, createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
     const {
       subAgencyNumber,
       documentNumber,
@@ -92,9 +86,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
     return subAgent;
   }
 
-  async updateSubAgent(
-    createSubAgentDto: UpdateSubAgentDto
-  ): Promise<SubAgent> {
+  async updateSubAgent(createSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
     const {
       subAgencyNumber,
       documentNumber,
