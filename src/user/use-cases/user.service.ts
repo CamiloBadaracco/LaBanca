@@ -1,6 +1,13 @@
-import { Controller, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Controller,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { MESSAGES } from "@nestjs/core/constants";
 import { InjectRepository } from "@nestjs/typeorm";
-import { json } from "express";
+import { json, response } from "express";
+import { Exception } from "handlebars";
 import { User } from "../domain/user.entity";
 import { CreateUsertDto } from "../infrastructure/controllers/dto/create-user.dto";
 import { UpdateUserDto } from "../infrastructure/controllers/dto/update-user.dto";
@@ -72,15 +79,25 @@ export class UserService {
   }
 
   async login(userName: string, pass: string): Promise<User> {
+    console.log(
+      "Login service " + " || username: " + userName + "   pass" + pass
+    );
+
     const found = await this.userRepository.findOne({ where: { userName } });
 
-    if (found) {
-      console.log("usuario existente");
-      let user: User;
+    console.log(userName + " /  " + pass);
+
+    if (!found) {
+      throw new BadRequestException("invalid credentials");
+    } else {
       if (!found.checkPassword(pass)) {
-        throw new NotFoundException(`UserName or Password are  incorrect`);
+        throw new BadRequestException("invalid credentials");
       }
     }
+
+    console.log("2");
+    found.pass = "";
+
     return found;
   }
 }

@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { CreateUsertDto } from "./dto/create-user.dto";
 import { User } from "../../domain/user.entity";
 import { UserService } from "../../use-cases/user.service";
@@ -50,11 +41,9 @@ export class UserController {
   /*AUTENTICACION*/
 
   @Get("/login/:userName/:pass")
-  login(
-    @Param("userName") userName: string,
-    @Param("pass") pass: string
-  ): Promise<User> {
-    console.log("Login controller");
+  login(@Param("userName") userName: string, @Param("pass") pass: string): Promise<User> {
+    // console.log("Login controller" + " || username: " + userName + "pass" + pass);
+
     return this.userService.login(userName, pass);
   }
 }
