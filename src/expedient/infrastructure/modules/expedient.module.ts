@@ -9,11 +9,14 @@ import { SubAgentController } from "src/subAgent/infrastructure/controllers/subA
 import { NotificationRepository } from "src/notification/infrastructure/repository/notification.repository";
 import { NotificationService } from "src/notification/use-cases/notification.service";
 import { NotificationController } from "src/notification/infrastructure/controllers/notification.controller";
+import { AgentRepository } from "src/agent/infrastructure/repository/agent.repository";
+import { AgentController } from "src/agent/infrastructure/controllers/agent.controller";
+import { AgentService } from "src/agent/use-cases/agent.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ExpedientRepository, SubAgentRepository, NotificationRepository])],
-  controllers: [ExpedientController, SubAgentController, NotificationController],
-  providers: [ExpedientService, SubAgentService, NotificationService],
-  exports: [ExpedientService, SubAgentService, NotificationService],
+  imports: [TypeOrmModule.forFeature([ExpedientRepository, SubAgentRepository, NotificationRepository, AgentRepository])],
+  controllers: [ExpedientController, SubAgentController, NotificationController, AgentController],
+  providers: [ExpedientService, SubAgentService, NotificationService, AgentService],
+  exports: [ExpedientService, SubAgentService, NotificationService, AgentService],
 })
 export class ExpedientModule {}

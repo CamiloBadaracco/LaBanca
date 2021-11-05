@@ -9,11 +9,14 @@ import { SubAgentController } from "src/subAgent/infrastructure/controllers/subA
 import { NotificationRepository } from "src/notification/infrastructure/repository/notification.repository";
 import { NotificationController } from "src/notification/infrastructure/controllers/notification.controller";
 import { NotificationService } from "src/notification/use-cases/notification.service";
+import { AgentRepository } from "src/agent/infrastructure/repository/agent.repository";
+import { AgentController } from "src/agent/infrastructure/controllers/agent.controller";
+import { AgentService } from "src/agent/use-cases/agent.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AddressRepository, SubAgentRepository, NotificationRepository])],
-  controllers: [AddressController, SubAgentController, NotificationController],
-  providers: [AddressService, SubAgentService, NotificationService],
-  exports: [AddressService, SubAgentService, NotificationService],
+  imports: [TypeOrmModule.forFeature([AddressRepository, SubAgentRepository, NotificationRepository, AgentRepository])],
+  controllers: [AddressController, SubAgentController, NotificationController, AgentController],
+  providers: [AddressService, SubAgentService, NotificationService, AgentService],
+  exports: [AddressService, SubAgentService, NotificationService, AgentService],
 })
 export class AddressModule {}

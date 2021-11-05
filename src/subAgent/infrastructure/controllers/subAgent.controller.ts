@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { CreateSubAgenttDto } from "./dto/create-subAgent.dto";
 import { SubAgent } from "../../domain/subAgent.entity";
 import { SubAgentService } from "../../use-cases/subAgent.service";
@@ -24,16 +15,12 @@ export class SubAgentController {
   }
 
   @Get("/subAgencyNumber/:subAgencyNumber")
-  getSubAgentBySubAgencyNumber(
-    @Param("subAgencyNumber") subAgencyNumber: string
-  ): Promise<SubAgent> {
+  getSubAgentBySubAgencyNumber(@Param("subAgencyNumber") subAgencyNumber: string): Promise<SubAgent> {
     return this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber);
   }
 
   @Get("/documentNumber/:documentNumber")
-  getSubAgentByDocumentNumber(
-    @Param("documentNumber") documentNumber: string
-  ): Promise<SubAgent> {
+  getSubAgentByDocumentNumber(@Param("documentNumber") documentNumber: string): Promise<SubAgent> {
     return this.subAgentService.getSubAgentByDocumentNumber(documentNumber);
   }
 
@@ -43,17 +30,12 @@ export class SubAgentController {
   }
 
   @Post()
-  createSubAgent(
-    @Body() createSubAgentDto: CreateSubAgenttDto
-  ): Promise<SubAgent> {
-    console.log("controller:  " + createSubAgentDto.subAgencyNumber);
+  createSubAgent(@Body() createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
     return this.subAgentService.createSubAgent(createSubAgentDto);
   }
 
   @Put()
-  updateSubAgent(
-    @Body() updateSubAgentDto: UpdateSubAgentDto
-  ): Promise<SubAgent> {
+  updateSubAgent(@Body() updateSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
     return this.subAgentService.updateSubAgent(updateSubAgentDto);
   }
 

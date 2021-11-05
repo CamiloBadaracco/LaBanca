@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import { Agent } from "src/agent/domain/agent.entity";
 import { Address } from "src/address/domain/address.entity";
 import { Expedient } from "src/expedient/domain/expedient.entity";
 import { Provisorio } from "src/provisorio/domain/provisorio.entity";
@@ -6,6 +7,9 @@ import { Provisorio } from "src/provisorio/domain/provisorio.entity";
 export class CreateSubAgenttDto {
   @IsNotEmpty()
   subAgencyNumber: string;
+
+  @IsNotEmpty()
+  agencyNumber: string;
 
   @IsNotEmpty()
   documentNumber: string;
@@ -48,6 +52,9 @@ export class CreateSubAgenttDto {
 
   @IsNotEmpty()
   changeAddressDocument: string;
+
+  @IsNotEmpty()
+  agent: Agent;
 
   @IsNotEmpty()
   address: Address;

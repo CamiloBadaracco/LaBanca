@@ -9,11 +9,14 @@ import { SubAgentController } from "src/subAgent/infrastructure/controllers/subA
 import { NotificationRepository } from "src/notification/infrastructure/repository/notification.repository";
 import { NotificationController } from "src/notification/infrastructure/controllers/notification.controller";
 import { NotificationService } from "src/notification/use-cases/notification.service";
+import { AgentRepository } from "src/agent/infrastructure/repository/agent.repository";
+import { AgentController } from "src/agent/infrastructure/controllers/agent.controller";
+import { AgentService } from "src/agent/use-cases/agent.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProvisorioRepository, SubAgentRepository, NotificationRepository])],
-  controllers: [ProvisorioController, SubAgentController, NotificationController],
-  providers: [ProvisorioService, SubAgentService, NotificationService],
-  exports: [ProvisorioService, SubAgentService, NotificationService],
+  imports: [TypeOrmModule.forFeature([ProvisorioRepository, SubAgentRepository, NotificationRepository, AgentRepository])],
+  controllers: [ProvisorioController, SubAgentController, NotificationController, AgentController],
+  providers: [ProvisorioService, SubAgentService, NotificationService, AgentService],
+  exports: [ProvisorioService, SubAgentService, NotificationService, AgentService],
 })
 export class ProvisorioModule {}

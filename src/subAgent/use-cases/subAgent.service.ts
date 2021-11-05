@@ -11,7 +11,7 @@ import { SubAgentRepository } from "../infrastructure/repository/subAgent.respos
 
 @Injectable()
 export class SubAgentService {
-  constructor(@InjectRepository(SubAgentRepository) private subAgentRepository: SubAgentRepository, private notificationRepository: NotificationRepository) {}
+  constructor(@InjectRepository(SubAgentRepository) private subAgentRepository: SubAgentRepository, private notificationService: NotificationService) {}
 
   async getAllSubAgents(): Promise<SubAgent[]> {
     return this.subAgentRepository.getSubAgents();
@@ -65,22 +65,26 @@ export class SubAgentService {
   }
 
   async createSubAgent(createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
+    console.log("createSubAgent" + createSubAgentDto.agencyNumber);
     let id = 0;
     const found = await this.getSubAgentBySubAgencyNumber(createSubAgentDto.subAgencyNumber);
 
+    console.log("1");
     if (found) {
+      console.log("2");
       id = found.id;
     }
+    console.log("3");
 
     /*Alta notificacion*/
-    let notif = new CreateNotificationDto();
-    notif.title = "Banca de quinielas de Pando. Alta Sub-Agent " + found.subAgencyNumber;
-    notif.actionDescription = "Se realizo alta del subAgente: " + found.subAgencyNumber + ", Nombre : " + found.name;
-    notif.agency = found.agent.agencyNumber;
-    notif.agencyMail = found.agent.mail;
-    notif.subAgencyModified = found.subAgencyNumber;
 
-    // await this.notificationService.createNotification(notif);
+    let notif = new CreateNotificationDto();
+    notif.title = "Banca de quinielas de Pando. Alta Sub-Agent " + createSubAgentDto.subAgencyNumber;
+    notif.actionDescription = "Se realizo alta del subAgente: " + createSubAgentDto.subAgencyNumber + ", Nombre : " + createSubAgentDto.name;
+    notif.agency = null;
+    notif.subAgencyModified = createSubAgentDto.subAgencyNumber;
+
+    await this.notificationService.createNotification(createSubAgentDto.agencyNumber, notif);
     return this.subAgentRepository.createSubAgent(id, createSubAgentDto);
   }
 

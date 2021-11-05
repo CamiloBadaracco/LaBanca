@@ -1,11 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Agent } from "src/agent/domain/agent.entity";
 import { Address } from "src/address/domain/address.entity";
 import { Provisorio } from "src/provisorio/domain/provisorio.entity";
