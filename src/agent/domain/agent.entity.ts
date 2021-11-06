@@ -25,9 +25,6 @@ export class Agent extends BaseEntity {
   @OneToMany((type) => SubAgent, (subAgent) => subAgent.id)
   subAgents: SubAgent[];
 
-  @OneToMany((type) => Notification, (notification) => notification.id)
-  notifications: Notification[];
-
   @OneToMany((type) => Notification, (notification) => notification.agent, {
     cascade: true,
   })

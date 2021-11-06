@@ -1,5 +1,6 @@
-import { IsNotEmpty } from 'class-validator';
-
+import { IsNotEmpty } from "class-validator";
+import { Notification } from "src/notification/domain/notification.entity";
+Notification;
 export class CreateAgentDto {
   @IsNotEmpty()
   agencyNumber: string;
@@ -15,4 +16,7 @@ export class CreateAgentDto {
 
   @IsNotEmpty()
   active: boolean;
+
+  @IsNotEmpty()
+  notification: Notification;
 }

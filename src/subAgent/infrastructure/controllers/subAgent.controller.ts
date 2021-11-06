@@ -31,6 +31,7 @@ export class SubAgentController {
 
   @Post()
   createSubAgent(@Body() createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
+    console.log(createSubAgentDto.notificar);
     return this.subAgentService.createSubAgent(createSubAgentDto);
   }
 

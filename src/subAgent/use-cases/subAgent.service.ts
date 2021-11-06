@@ -81,11 +81,16 @@ export class SubAgentService {
     let notif = new CreateNotificationDto();
     notif.title = "Banca de quinielas de Pando. Alta Sub-Agent " + createSubAgentDto.subAgencyNumber;
     notif.actionDescription = "Se realizo alta del subAgente: " + createSubAgentDto.subAgencyNumber + ", Nombre : " + createSubAgentDto.name;
-    notif.agency = null;
+    notif.agencyNumber = createSubAgentDto.agencyNumber;
     notif.subAgencyModified = createSubAgentDto.subAgencyNumber;
 
-    await this.notificationService.createNotification(createSubAgentDto.agencyNumber, notif);
-    return this.subAgentRepository.createSubAgent(id, createSubAgentDto);
+    let resultSubAgent = this.subAgentRepository.createSubAgent(id, createSubAgentDto);
+
+    if (resultSubAgent) {
+      console.log("Envio notif");
+      this.notificationService.createNotification(notif);
+    }
+    return resultSubAgent;
   }
 
   async updateSubAgent(updateSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
