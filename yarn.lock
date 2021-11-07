@@ -562,14 +562,14 @@
     "webpack" "5.9.0"
     "webpack-node-externals" "2.5.2"
 
-"@nestjs/common@^6.0.0 || ^7.0.0", "@nestjs/common@^6.10.0 || ^7.0.0", "@nestjs/common@^6.7.0 || ^7.0.0", "@nestjs/common@^7.0.0", "@nestjs/common@^7.6.5":
-  "integrity" "sha512-WvBJd71ktaCRm9KTURVqn1YMyUzsOIkvezjP7WEpP9DVqQUOFVvn6/osJGZky/qL+zE4P7NBNyoXM94bpYvMwQ=="
-  "resolved" "https://registry.npmjs.org/@nestjs/common/-/common-7.6.5.tgz"
-  "version" "7.6.5"
+"@nestjs/common@^6.0.0 || ^7.0.0", "@nestjs/common@^6.10.0 || ^7.0.0", "@nestjs/common@^6.7.0 || ^7.0.0", "@nestjs/common@^7.0.0", "@nestjs/common@^7.6.18":
+  "integrity" "sha512-BUJQHNhWzwWOkS4Ryndzd4HTeRObcAWV2Fh+ermyo3q3xYQQzNoEWclJVL/wZec8AONELwIJ+PSpWI53VP0leg=="
+  "resolved" "https://registry.npmjs.org/@nestjs/common/-/common-7.6.18.tgz"
+  "version" "7.6.18"
   dependencies:
     "axios" "0.21.1"
     "iterare" "1.2.1"
-    "tslib" "2.0.3"
+    "tslib" "2.2.0"
     "uuid" "8.3.2"
 
 "@nestjs/config@^0.6.3":
@@ -882,7 +882,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.17.8":
+"@types/express@*", "@types/express@^4.17.8":
   "integrity" "sha512-SDzEIZInC4sivGIFY4Sz1GG6J9UObPwCInYJjko2jzOf/Imx/dlpume6Xxwj1ORL82tBbmN4cPDIDkLbWHk9hw=="
   "resolved" "https://registry.npmjs.org/@types/express/-/express-4.17.9.tgz"
   "version" "4.17.9"
@@ -947,6 +947,13 @@
   "integrity" "sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q=="
   "resolved" "https://registry.npmjs.org/@types/mime/-/mime-2.0.3.tgz"
   "version" "2.0.3"
+
+"@types/multer@^1.4.7":
+  "integrity" "sha512-/SNsDidUFCvqqcWDwxv2feww/yqhNeTRL5CVoL3jU4Goc4kKEL10T7Eye65ZqPNi4HRx8sAEX59pV1aEH7drNA=="
+  "resolved" "https://registry.npmjs.org/@types/multer/-/multer-1.4.7.tgz"
+  "version" "1.4.7"
+  dependencies:
+    "@types/express" "*"
 
 "@types/node@*", "@types/node@^14.14.20":
   "integrity" "sha512-Y93R97Ouif9JEOWPIUyU+eyIdyRqQR0I8Ez1dzku4hDx34NWh4HbtIc3WNzwB1Y9ULvNGeu5B8h8bVL5cAk4/A=="
@@ -3040,6 +3047,11 @@
   "version" "6.0.0"
   dependencies:
     "flat-cache" "^3.0.4"
+
+"file@^0.2.2":
+  "integrity" "sha1-w9/Y+M81Na5FXCtCPC5SY112tNM="
+  "resolved" "https://registry.npmjs.org/file/-/file-0.2.2.tgz"
+  "version" "0.2.2"
 
 "fill-range@^4.0.0":
   "integrity" "sha1-1USBHUKPmOsGpj3EAtJAPDKMOPc="
@@ -6871,6 +6883,11 @@
   "integrity" "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz"
   "version" "2.1.0"
+
+"tslib@2.2.0":
+  "integrity" "sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.2.0.tgz"
+  "version" "2.2.0"
 
 "tsutils@^3.17.1":
   "integrity" "sha512-A7BaLUPvcQ1cxVu72YfD+UMI3SQPTDv/w4ol6TOwLyI0hwfG9EC+cYlhdflJTmtYTgZ3KqdPSe/otxU4K3kArg=="

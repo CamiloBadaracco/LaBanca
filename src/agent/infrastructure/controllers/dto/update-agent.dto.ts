@@ -1,10 +1,8 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 
 export class UpdateAgentDto {
- 
-  
   @IsNotEmpty()
-  id:number;
+  id: number;
 
   @IsNotEmpty()
   agencyNumber: string;
@@ -15,10 +13,8 @@ export class UpdateAgentDto {
   @IsNotEmpty()
   zone: string;
 
-
   @IsNotEmpty()
   mail: string;
-
 
   @IsNotEmpty()
   active: boolean;
