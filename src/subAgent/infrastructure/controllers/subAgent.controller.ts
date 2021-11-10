@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Catch, Controller, Delete, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 
 import { createReadStream, readFile, WriteStream } from "fs";
 import { join } from "path";
@@ -9,6 +9,8 @@ import { UpdateSubAgentDto } from "./dto/update-subAgent.dto";
 import { Console } from "console";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
+import { url } from "inspector";
+import { Exception } from "handlebars";
 
 @Controller("subAgent")
 export class SubAgentController {
@@ -58,7 +60,8 @@ export class SubAgentController {
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        destination: "./uploads",
+        // destination: "./uploads",
+        destination: "D:\\",
         filename: function (req, file, cb) {
           cb(null, Date.now() + "-" + file.originalname);
         },
@@ -72,11 +75,15 @@ export class SubAgentController {
     };
   }
 
-  @Get("getFile")
-  getFile(@Res() res) {
-    const fielName = "DiagramaBase.PNG";
-    res.setJeader("Content-Type", "application/octet-stream");
-    res.attachment(fielName);
-    return res.download("./uploads/" + fielName);
+  //Si le pego desde navegador funciona : http://localhost:5000/subAgent/getFile/1/DiagramaBase.PNG
+
+  @Get("/getFile/:id/:Url")
+  getFile(@Res() res, @Param("id") id: number, @Param("Url") Url: string) {
+    try {
+      console.log("Url por param:  " + Url);
+      res.download("D:\\" + Url.toString());
+    } catch (Exception) {
+      console.log("ERROR");
+    }
   }
 }
