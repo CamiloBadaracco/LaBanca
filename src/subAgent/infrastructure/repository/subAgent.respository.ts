@@ -1,18 +1,18 @@
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { EntityRepository, Repository } from "typeorm";
-import { CreateSubAgenttDto } from "../controllers/dto/create-subAgent.dto";
 import { SubAgent } from "../../domain/subAgent.entity";
-import { UpdateSubAgentDto } from "../controllers/dto/update-subAgent.dto";
-import { Address } from "src/address/domain/address.entity";
-import { Expedient } from "src/expedient/domain/expedient.entity";
-import { Provisorio } from "src/provisorio/domain/provisorio.entity";
 
 @EntityRepository(SubAgent)
 export class SubAgentRepository extends Repository<SubAgent> {
   async getSubAgents(): Promise<SubAgent[]> {
-    const query = this.createQueryBuilder("subAgent")
-      .leftJoinAndSelect("subAgent.address", "address")
-      .leftJoinAndSelect("subAgent.expedient", "expedient")
-      .leftJoinAndSelect("subAgent.provisorio", "provisorio");
+    const query = this.createQueryBuilder("subAgent").leftJoinAndSelect("subAgent.address", "address").leftJoinAndSelect("subAgent.expedient", "expedient").leftJoinAndSelect("subAgent.provisorio", "provisorio").leftJoinAndSelect("subAgent.agent", "agent").where("address.active = true").andWhere("expedient.active = true").andWhere("provisorio.active = true");
+
+    const agents = await query.getMany();
+    return agents;
+  }
+
+  async getEnableSubAgents(): Promise<SubAgent[]> {
+    const query = this.createQueryBuilder("subAgent").leftJoinAndSelect("subAgent.address", "address").leftJoinAndSelect("subAgent.expedient", "expedient").leftJoinAndSelect("subAgent.provisorio", "provisorio").leftJoinAndSelect("subAgent.agent", "agent").where("address.active = true").andWhere("expedient.active = true").andWhere("provisorio.active = true").andWhere("subAgent.active = true");
 
     const agents = await query.getMany();
     return agents;
@@ -25,106 +25,23 @@ export class SubAgentRepository extends Repository<SubAgent> {
     return agents;
   }
 
-  async createSubAgent(idParam: number, createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    const {
-      subAgencyNumber,
-      documentNumber,
-      name,
-      documentIdPhoto,
-      formNineHundred,
-      passportPhoto,
-      certificateGoodConduct,
-      rut,
-      documentDGI,
-      literalE,
-      patentNumber,
-      certificateNumber,
-      enabledDocument,
-      cesantiaDocument,
-      changeAddressDocument,
-      address,
-      expedient,
-      provisorio,
-    } = createSubAgentDto;
+  async createSubAgent(objSubAgent: SubAgent): Promise<SubAgent> {
+    try {
+      await objSubAgent.save();
+      return objSubAgent;
+    } catch (err) {
+      throw new BadRequestException("Al crear subAgent Respository" + err);
+    }
+  }
 
-    const subAgent = new SubAgent();
-
-    subAgent.id = idParam;
-    subAgent.subAgencyNumber = subAgencyNumber;
-    subAgent.documentNumber = documentNumber;
-    subAgent.name = name;
-    subAgent.documentIdPhoto = documentIdPhoto;
-    subAgent.formNineHundred = formNineHundred;
-    subAgent.passportPhoto = passportPhoto;
-    subAgent.certificateGoodConduct = certificateGoodConduct;
-
-    subAgent.rut = rut;
-    subAgent.documentDGI = documentDGI;
-    subAgent.literalE = literalE;
-    subAgent.patentNumber = patentNumber;
-    subAgent.certificateNumber = certificateNumber;
-
-    subAgent.enabledDocument = enabledDocument;
-    subAgent.cesantiaDocument = cesantiaDocument;
-    subAgent.changeAddressDocument = changeAddressDocument;
-
-    subAgent.active = true;
-
-    var addressAgregar = new Array<Address>();
-    addressAgregar.push(address);
-    subAgent.address = addressAgregar;
-
-    var expedientAgregar = new Array<Expedient>();
-    expedientAgregar.push(expedient);
-    subAgent.expedient = expedientAgregar;
-
-    var provisorioAgregar = new Array<Provisorio>();
-    provisorioAgregar.push(provisorio);
-    subAgent.provisorio = provisorioAgregar;
-
+  async updateSubAgent(subAgent: SubAgent): Promise<SubAgent> {
     await subAgent.save();
     return subAgent;
   }
 
-  async updateSubAgent(createSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
-    const {
-      subAgencyNumber,
-      documentNumber,
-      name,
-      documentIdPhoto,
-      formNineHundred,
-      passportPhoto,
-      certificateGoodConduct,
-      rut,
-      documentDGI,
-      literalE,
-      patentNumber,
-      certificateNumber,
-      enabledDocument,
-      cesantiaDocument,
-      changeAddressDocument,
-    } = createSubAgentDto;
-
-    const subAgent = new SubAgent();
-    subAgent.subAgencyNumber = subAgencyNumber;
-    subAgent.documentNumber = documentNumber;
-    subAgent.name = name;
-    subAgent.documentIdPhoto = documentIdPhoto;
-    subAgent.formNineHundred = formNineHundred;
-    subAgent.passportPhoto = passportPhoto;
-    subAgent.certificateGoodConduct = certificateGoodConduct;
-    subAgent.rut = rut;
-    subAgent.documentDGI = documentDGI;
-    subAgent.literalE = literalE;
-    subAgent.patentNumber = patentNumber;
-    subAgent.certificateNumber = certificateNumber;
-
-    subAgent.enabledDocument = enabledDocument;
-    subAgent.cesantiaDocument = cesantiaDocument;
-    subAgent.changeAddressDocument = changeAddressDocument;
-
-    await subAgent.save();
-    return subAgent;
+  async updateSubAgentAux(createSubAgent: SubAgent): Promise<SubAgent> {
+    await createSubAgent.save();
+    return createSubAgent;
   }
 
   async deleteSubAgent(id: number): Promise<SubAgent> {
@@ -134,49 +51,7 @@ export class SubAgentRepository extends Repository<SubAgent> {
   }
 
   async updateStateSubAgent(subAgentUpdt: SubAgent): Promise<SubAgent> {
-    const {
-      id,
-      subAgencyNumber,
-      documentNumber,
-      name,
-      documentIdPhoto,
-      formNineHundred,
-      passportPhoto,
-      certificateGoodConduct,
-      dateOfUpdate,
-      rut,
-      documentDGI,
-      literalE,
-      patentNumber,
-      certificateNumber,
-      enabledDocument,
-      cesantiaDocument,
-      changeAddressDocument,
-      active,
-    } = subAgentUpdt;
-
-    console.log("id: " + id + "   subAgencyNumber" + subAgencyNumber);
-    /*
-      const subAg = new SubAgent();
-      
-      subAg.id= id;
-      subAg.subAgencyNumber= subAgencyNumber;
-      subAg.documentNumber= documentNumber;
-      subAg.name= name;
-      subAg.documentIdPhoto=documentIdPhoto; 
-      subAg.formNineHundred=formNineHundred; 
-      subAg.passportPhoto= passportPhoto;
-      subAg.certificateGoodConduct= certificateGoodConduct;
-      subAg.dateOfUpdate= dateOfUpdate;
-      subAg.rut= rut;
-      subAg.literalE= literalE;
-      subAg.patentNumber= patentNumber;
-      subAg.certificateNumber= certificateNumber;
-      subAg.enabledDocument = enabledDocument;
-      subAg.cesantiaDocument = cesantiaDocument;
-      subAg.changeAddressDocument = changeAddressDocument;
-      
-      subAg.active= active;*/
+    const { id, subAgencyNumber, documentNumber, name, documentIdPhoto, formNineHundred, passportPhoto, certificateGoodConduct, dateOfUpdate, rut, documentDGI, literalE, patentNumber, certificateNumber, enabledDocument, cesantiaDocument, changeAddressDocument, active } = subAgentUpdt;
 
     await subAgentUpdt.save();
     return subAgentUpdt;

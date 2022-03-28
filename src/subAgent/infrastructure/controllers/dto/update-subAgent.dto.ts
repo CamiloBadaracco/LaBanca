@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class UpdateSubAgentDto {
   @IsNotEmpty()
@@ -7,26 +7,38 @@ export class UpdateSubAgentDto {
   @IsNotEmpty()
   documentNumber: string;
 
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  secondFirstName: string;
+
+  @IsString()
+  firstLastName: string;
+
+  @IsString()
+  secondLastName: string;
+
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  documentIdPhoto: string;
+  documentIdPhoto: object;
 
   @IsNotEmpty()
-  formNineHundred: string;
+  formNineHundred: object;
 
   @IsNotEmpty()
-  passportPhoto: string;
+  passportPhoto: object;
 
   @IsNotEmpty()
-  certificateGoodConduct: string;
+  certificateGoodConduct: object;
 
   @IsNotEmpty()
   rut: string;
 
   @IsNotEmpty()
-  documentDGI: string;
+  documentDGI: object;
 
   @IsNotEmpty()
   literalE: boolean;
@@ -38,11 +50,11 @@ export class UpdateSubAgentDto {
   certificateNumber: string;
 
   @IsNotEmpty()
-  enabledDocument: string;
+  enabledDocument: object;
 
   @IsNotEmpty()
-  cesantiaDocument: string;
+  cesantiaDocument: object;
 
   @IsNotEmpty()
-  changeAddressDocument: string;
+  changeAddressDocument: object;
 }

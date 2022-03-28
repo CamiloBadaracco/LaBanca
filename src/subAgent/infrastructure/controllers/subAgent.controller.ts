@@ -1,16 +1,10 @@
 import { Body, Catch, Controller, Delete, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
-
-import { createReadStream, readFile, WriteStream } from "fs";
-import { join } from "path";
-import { CreateSubAgenttDto } from "./dto/create-subAgent.dto";
+import { CreateSubAgentDto } from "./dto/create-subAgent.dto";
 import { SubAgent } from "../../domain/subAgent.entity";
 import { SubAgentService } from "../../use-cases/subAgent.service";
 import { UpdateSubAgentDto } from "./dto/update-subAgent.dto";
-import { Console } from "console";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import { url } from "inspector";
-import { Exception } from "handlebars";
 
 @Controller("subAgent")
 export class SubAgentController {
@@ -19,6 +13,11 @@ export class SubAgentController {
   @Get()
   getSubAgents(): Promise<SubAgent[]> {
     return this.subAgentService.getAllSubAgents();
+  }
+
+  @Get("/getEnableSubAgents")
+  getEnableAgents(): Promise<SubAgent[]> {
+    return this.subAgentService.getEnableSubAgents();
   }
 
   @Get("/subAgencyNumber/:subAgencyNumber")
@@ -37,14 +36,13 @@ export class SubAgentController {
   }
 
   @Post()
-  createSubAgent(@Body() createSubAgentDto: CreateSubAgenttDto): Promise<SubAgent> {
-    console.log(createSubAgentDto.notificar);
+  createSubAgent(@Body() createSubAgentDto: CreateSubAgentDto): Promise<SubAgent> {
     return this.subAgentService.createSubAgent(createSubAgentDto);
   }
 
   @Put()
-  updateSubAgent(@Body() updateSubAgentDto: UpdateSubAgentDto): Promise<SubAgent> {
-    return this.subAgentService.updateSubAgent(updateSubAgentDto);
+  updateSubAgent(@Body() createSubAgentDto: CreateSubAgentDto): Promise<SubAgent> {
+    return this.subAgentService.updateSubAgent(createSubAgentDto);
   }
 
   @Delete()
@@ -57,33 +55,39 @@ export class SubAgentController {
     this.subAgentService.updateStateSubAgent(subAgencyNumber);
   }
 
+  //#region  Manejo Files [Upload & Get]
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        // destination: "./uploads",
-        destination: "D:\\",
+        destination: "./uploads",
         filename: function (req, file, cb) {
-          cb(null, Date.now() + "-" + file.originalname);
+          cb(null, file.originalname + ".pdf");
         },
       }),
     })
   )
   @Post("file")
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return {
-      msg: "Arcivo  cargado correctamente",
-    };
+  uploadFile(@UploadedFile() fileParam: Express.Multer.File) {
+    try {
+      return {
+        msg: "Arcivo  cargado correctamente",
+      };
+    } catch {
+      console.log("Error");
+    }
   }
 
-  //Si le pego desde navegador funciona : http://localhost:5000/subAgent/getFile/1/DiagramaBase.PNG
-
-  @Get("/getFile/:id/:Url")
-  getFile(@Res() res, @Param("id") id: number, @Param("Url") Url: string) {
+  @Get("/getFile/:id/:nameType/:subAgencyNumber")
+  getFile(@Res() res, @Param("id") id: number, @Param("nameType") nameType: string, @Param("subAgencyNumber") subAgencyNumber: string) {
     try {
-      console.log("Url por param:  " + Url);
-      res.download("D:\\" + Url.toString());
+      let ruta = "./uploads/";
+      res.download(ruta + nameType.toString());
+
+      // res.download("D:\\" + Url.toString());
     } catch (Exception) {
       console.log("ERROR");
     }
   }
+
+  //#endregion
 }

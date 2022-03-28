@@ -1,8 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { CreateExpedientDto } from "../controllers/dto/create-expedient.dto";
 import { Expedient } from "../../domain/expedient.entity";
-import { UpdateExpedientDto } from "../controllers/dto/update-expedient.dto";
-import { SubAgent } from "src/subAgent/domain/subAgent.entity";
 
 @EntityRepository(Expedient)
 export class ExpedientRepository extends Repository<Expedient> {
@@ -12,30 +9,15 @@ export class ExpedientRepository extends Repository<Expedient> {
     const agents = await query.getMany();
     return agents;
   }
-  /* -- se da de alta por medio de sub agent no se utiliza
-  async createExpedient(createExpedientDto: CreateExpedientDto): Promise<SubAgent> {
-    const {expedientNumber,url,observation,active } = createExpedientDto;
 
-    const expedient = new Expedient();
-    expedient.expedientNumber = expedientNumber;
-    expedient.url = url;
-    expedient.observation = observation;
-    expedient.active = active;
-   
-    await expedient.save();
-    return expedient;
- 
-  }*/
+  async getEnableExpedient(): Promise<Expedient[]> {
+    const query = this.createQueryBuilder("expedient").leftJoinAndSelect("expedient.subAgent", "subAgent").where("expedient.active = true");
 
-  async updateExpedient(updateExpedientDto: UpdateExpedientDto): Promise<Expedient> {
-    const { expedientNumber, url, observation, active } = updateExpedientDto;
+    const agents = await query.getMany();
+    return agents;
+  }
 
-    const expedient = new Expedient();
-    expedient.expedientNumber = parseInt(expedientNumber.toString());
-    expedient.url = url;
-    expedient.observation = observation;
-    expedient.active = active;
-
+  async updateExpedient(expedient: Expedient): Promise<Expedient> {
     await expedient.save();
     return expedient;
   }
@@ -47,15 +29,11 @@ export class ExpedientRepository extends Repository<Expedient> {
   }
 
   async updateStateExpedient(expedientUpdt: Expedient): Promise<Expedient> {
-    const { expedientNumber, url, observation, active } = expedientUpdt;
-
-    const exped = new Expedient();
-    exped.expedientNumber = expedientNumber;
-    exped.url = url;
-    exped.observation = observation;
-    exped.active = active;
-
-    await exped.save();
-    return exped;
+    try {
+      await expedientUpdt.save();
+      return expedientUpdt;
+    } catch {
+      console.log("Error");
+    }
   }
 }

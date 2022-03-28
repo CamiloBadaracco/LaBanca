@@ -9,11 +9,23 @@ export class SubAgent extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   subAgencyNumber: string;
 
   @Column({ nullable: false })
   documentNumber: string;
+
+  @Column({ unique: false })
+  firstName: string;
+
+  @Column({ unique: false })
+  secondFirstName: string;
+
+  @Column({ unique: false })
+  firstLastName: string;
+
+  @Column({ unique: false })
+  secondLastName: string;
 
   @Column({ unique: true })
   name: string;
@@ -60,7 +72,7 @@ export class SubAgent extends BaseEntity {
   @Column({ nullable: true })
   active: boolean;
 
-  @ManyToOne((type) => Agent, (agent) => agent.id)
+  @ManyToOne((type) => Agent, (agent) => agent.id, { onDelete: "CASCADE" })
   agent: Agent;
 
   @OneToMany((type) => Address, (address) => address.subAgent, {

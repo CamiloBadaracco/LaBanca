@@ -1,10 +1,9 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEmpty, IsNotEmpty } from "class-validator";
 
 export class UpdateAddressDto {
- 
   @IsNotEmpty()
   id: number;
- 
+
   @IsNotEmpty()
   department: string;
 
@@ -13,7 +12,7 @@ export class UpdateAddressDto {
 
   @IsNotEmpty()
   streetName: string;
-  
+
   @IsNotEmpty()
   streetNumber: string;
 
@@ -22,8 +21,11 @@ export class UpdateAddressDto {
 
   @IsNotEmpty()
   observation: string;
- 
 
   @IsNotEmpty()
   active: boolean;
+
+  //Relacion con subAgent
+  @IsEmpty()
+  subAgencyNumber: string;
 }

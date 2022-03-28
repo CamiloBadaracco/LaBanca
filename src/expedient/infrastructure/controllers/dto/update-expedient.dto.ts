@@ -1,10 +1,8 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 
 export class UpdateExpedientDto {
-
   @IsNotEmpty()
   expedientNumber: number;
-  
 
   @IsNotEmpty()
   url: string;
@@ -14,6 +12,4 @@ export class UpdateExpedientDto {
 
   @IsNotEmpty()
   active: boolean;
-
- 
 }

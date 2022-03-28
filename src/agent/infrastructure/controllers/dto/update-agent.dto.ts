@@ -5,7 +5,7 @@ export class UpdateAgentDto {
   id: number;
 
   @IsNotEmpty()
-  agencyNumber: string;
+  oldAgencyNumber: string;
 
   @IsNotEmpty()
   orden: string;
@@ -18,4 +18,7 @@ export class UpdateAgentDto {
 
   @IsNotEmpty()
   active: boolean;
+
+  @IsNotEmpty()
+  newAgencyNumber: string;
 }

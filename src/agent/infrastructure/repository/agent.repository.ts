@@ -1,48 +1,26 @@
-import { EntityRepository, Repository, TreeChildren } from "typeorm";
-import { CreateAgentDto } from "../controllers/dto/create-agent.dto";
+import { EntityRepository, Repository } from "typeorm";
 import { Agent } from "../../domain/agent.entity";
-import { UpdateAgentDto } from "../controllers/dto/update-agent.dto";
 
 @EntityRepository(Agent)
 export class AgentRepository extends Repository<Agent> {
   async getAgents(): Promise<Agent[]> {
     const query = this.createQueryBuilder("agent");
-
     const agents = await query.getMany();
     return agents;
   }
 
   async getEnableAgents(): Promise<Agent[]> {
     const query = this.createQueryBuilder("agent").where("agent.active = true");
-
     const agents = await query.getMany();
     return agents;
   }
 
-  async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
-    const { agencyNumber, orden, zone, mail, active } = createAgentDto;
-
-    const agent = new Agent();
-    agent.agencyNumber = agencyNumber;
-    agent.orden = orden;
-    agent.zone = zone;
-    agent.mail = mail;
-    agent.active = active;
+  async createAgent(agent: Agent): Promise<Agent> {
     await agent.save();
     return agent;
   }
 
-  async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
-    const { id, agencyNumber, orden, zone, mail, active } = updateAgentDto;
-
-    const agent = new Agent();
-
-    agent.id = parseInt(id.toString());
-    agent.agencyNumber = agencyNumber;
-    agent.orden = orden;
-    agent.zone = zone;
-    agent.mail = mail;
-    agent.active = true;
+  async updateAgent(agent: Agent): Promise<Agent> {
     await agent.save();
     return agent;
   }
@@ -53,18 +31,7 @@ export class AgentRepository extends Repository<Agent> {
     return agent;
   }
 
-  async updateStateAgent(agentUpdt: UpdateAgentDto): Promise<Agent> {
-    const { id, agencyNumber, orden, zone, mail, active } = agentUpdt;
-
-    const agent = new Agent();
-    agent.id = parseInt(id.toString());
-    agent.agencyNumber = agencyNumber.toString();
-    agent.orden = orden;
-    agent.zone = zone;
-    agent.mail = mail;
-    agent.mail = mail;
-    agent.active = active;
-
+  async updateStateAgent(agent: Agent): Promise<Agent> {
     await agent.save();
     return agent;
   }

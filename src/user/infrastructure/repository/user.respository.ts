@@ -1,7 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { CreateUsertDto } from "../controllers/dto/create-user.dto";
 import { User } from "../../domain/user.entity";
-import { UpdateUserDto } from "../controllers/dto/update-user.dto";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -12,31 +10,17 @@ export class UserRepository extends Repository<User> {
     return user;
   }
 
-  async createUser(createUserDto: CreateUsertDto): Promise<User> {
-    const { name, lastName, userName, pass, mail } = createUserDto;
-
-    const user = new User();
-    user.name = name;
-    user.lastName = lastName;
-    user.userName = userName;
-    user.hashPassword(pass);
-    user.mail = mail;
-
+  async createUser(user: User): Promise<User> {
     await user.save();
     return user;
   }
 
-  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
-    const { id, name, lastName, userName, pass, mail } = updateUserDto;
+  async updateUser(user: User): Promise<User> {
+    await user.save();
+    return user;
+  }
 
-    const user = new User();
-    user.id = parseInt(id.toString());
-    user.name = name;
-    user.lastName = lastName;
-    user.userName = userName;
-    user.pass = pass;
-    user.mail = mail;
-
+  async updateOwnUser(user: User): Promise<User> {
     await user.save();
     return user;
   }

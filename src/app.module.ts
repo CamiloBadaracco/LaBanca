@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AgentModule } from "./agent/infrastructure/modules/agent.module";
 import { typeOrmConfig } from "./config/typeorm.config";
@@ -13,6 +13,12 @@ import { ExpedientModule } from "./expedient/infrastructure/modules/expedient.mo
 import { NotificationModule } from "./notification/infrastructure/modules/notification.module";
 
 //import { MailModule } from './mail/infrastructure/modules/mail.module';
+import { AuthModule } from "./auth/auth.module";
+import { AccessControlModule } from "nest-access-control";
+import { roles } from "./app.roles";
+import { FileModule } from "./file/infrastructure/modules/file.module";
+import { MailModule } from "./mail/infrastructure/modules/mail.module";
+import { UserAgentModule } from "./userAgent/infrastructure/modules/userAgent.module";
 
 @Module({
   imports: [
@@ -25,6 +31,15 @@ import { NotificationModule } from "./notification/infrastructure/modules/notifi
     ProvisorioModule,
     ExpedientModule,
     NotificationModule,
+    AuthModule,
+    FileModule,
+    ConfigService,
+    ConfigModule,
+    MailModule,
+    UserAgentModule,
+
+    AccessControlModule.forRoles(roles),
+
     // MailModule,
   ],
 })

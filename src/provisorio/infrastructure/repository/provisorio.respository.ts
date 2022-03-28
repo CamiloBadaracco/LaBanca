@@ -12,11 +12,18 @@ export class ProvisorioRepository extends Repository<Provisorio> {
     return agents;
   }
 
+  async getEnabledProvisorio(): Promise<Provisorio[]> {
+    const query = this.createQueryBuilder("provisorio").leftJoinAndSelect("provisorio.subAgent", "subAgent").where("provisorio.active = true");
+
+    const agents = await query.getMany();
+    return agents;
+  }
+
   async createProvisorio(createProvisorioDto: CreateProvisoriotDto): Promise<Provisorio> {
     const { url, observation, active } = createProvisorioDto;
 
     const provisorio = new Provisorio();
-    provisorio.url = url;
+    provisorio.url = " fija REPOSITORY LIN 19";
     provisorio.observation = observation;
     provisorio.active = active;
     provisorio.dateOfUpdated = new Date();
@@ -30,7 +37,7 @@ export class ProvisorioRepository extends Repository<Provisorio> {
 
     const provisorio = new Provisorio();
     provisorio.id = parseInt(id.toString());
-    provisorio.url = url;
+    provisorio.url = null;
     provisorio.observation = observation;
     provisorio.active = active;
     //provisorio.dateOfUpdated =dateOfUpdated;
@@ -46,7 +53,7 @@ export class ProvisorioRepository extends Repository<Provisorio> {
   }
 
   async updateStateProvisorio(provisorioUpdt: Provisorio): Promise<Provisorio> {
-    const { id, url, observation, active, dateOfUpdated } = provisorioUpdt;
+    /*  const { id, url, observation, active, dateOfUpdated } = provisorioUpdt;
 
     const prov = new Provisorio();
     prov.id = id;
@@ -54,8 +61,9 @@ export class ProvisorioRepository extends Repository<Provisorio> {
     prov.observation = observation;
     prov.active = active;
     prov.dateOfUpdated = dateOfUpdated;
+*/
 
-    await prov.save();
-    return prov;
+    await provisorioUpdt.save();
+    return provisorioUpdt;
   }
 }

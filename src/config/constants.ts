@@ -1,0 +1,3 @@
+export const JWT_SECRET = "JWT_SECRET";
+export const DEFAULT_USER_NAME = "DEFAULT_USER_NAME";
+export const DEFAULT_USER_PASS = "DEFAULT_USER_PASS";

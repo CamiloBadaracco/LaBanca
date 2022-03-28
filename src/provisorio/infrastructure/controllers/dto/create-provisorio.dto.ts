@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { IsEmpty, IsNotEmpty } from "class-validator";
 
 export class CreateProvisoriotDto {
   @IsNotEmpty()
@@ -10,9 +10,7 @@ export class CreateProvisoriotDto {
   @IsNotEmpty()
   active: boolean;
 
-    //Relacion con subAgent
-    @IsEmpty()
-    subAgencyNumber: string;
-    
- 
+  //Relacion con subAgent
+  @IsEmpty()
+  subAgencyNumber: string;
 }

@@ -1,117 +1,105 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SubAgent } from 'src/subAgent/domain/subAgent.entity';
-import { CreateSubAgenttDto } from 'src/subAgent/infrastructure/controllers/dto/create-subAgent.dto';
-import { Expedient } from '../domain/expedient.entity';
-import { CreateExpedientDto } from '../infrastructure/controllers/dto/create-expedient.dto';
-import { UpdateExpedientDto } from '../infrastructure/controllers/dto/update-expedient.dto';
-import { ExpedientRepository } from '../infrastructure/repository/expedient.respository';
-import { SubAgentService } from 'src/subAgent/use-cases/subAgent.service';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { SubAgent } from "src/subAgent/domain/subAgent.entity";
+import { Expedient } from "../domain/expedient.entity";
+import { CreateExpedientDto } from "../infrastructure/controllers/dto/create-expedient.dto";
+import { UpdateExpedientDto } from "../infrastructure/controllers/dto/update-expedient.dto";
+import { ExpedientRepository } from "../infrastructure/repository/expedient.respository";
+import { SubAgentService } from "src/subAgent/use-cases/subAgent.service";
 
 @Injectable()
 export class ExpedientService {
-  constructor(@InjectRepository(ExpedientRepository)private expedientRepository: ExpedientRepository, private subAgentService: SubAgentService ) {}
-  
- 
+  constructor(@InjectRepository(ExpedientRepository) private expedientRepository: ExpedientRepository, private subAgentService: SubAgentService) {}
 
   async getAllExpedients(): Promise<Expedient[]> {
     return this.expedientRepository.getExpedients();
   }
 
+  async getEnableExpedient(): Promise<Expedient[]> {
+    return this.expedientRepository.getEnableExpedient();
+  }
+
   async getExpedientById(id: number): Promise<Expedient> {
-    const found = await this.expedientRepository.findOne({ where: { id } });
+    try {
+      const found = await this.expedientRepository.findOne({ where: { id } });
 
-    if (!found) {
-      throw new NotFoundException(`Expedient with ID "${id}" not found`);
+      if (!found) {
+        throw new NotFoundException(`Expedient with ID "${id}" not found`);
+      }
+
+      return found;
+    } catch (err) {
+      throw new NotFoundException(err);
     }
-
-    return found;
   }
- 
 
-  async createExpedient(createExpedientDto: CreateExpedientDto): Promise<SubAgent> {
-    
-    
-    //NumeroSubAgency
-    let subAgencyNumber = createExpedientDto.subAgencyNumber;
-    console.log('SubAgency recibido: '+ subAgencyNumber);
+  async createExpedient(creExpDto: CreateExpedientDto): Promise<SubAgent> {
+    try {
+      let subAgencyNumber = creExpDto.subAgencyNumber;
 
-    //Obtengo SubAgente por numero de sub agente y me quedo con la address viva.
-    let subagent =  await this.subAgentService.getSubAgentBySubAgencyNumber(subAgencyNumber);
+      //Obtengo SubAgente por numero de sub agente y me quedo con la address viva.
+      let subagent = await this.subAgentService.getAllSubAgentBySubAgencyNumber(subAgencyNumber);
 
-   
-    
-    
-    //Si hay provisorio vivo, hago update para cambiar de estado
-    if (subagent.provisorio.length > 0 ) 
-    {
-      subagent.expedient.filter(exp => exp.active == true ).forEach(exp => {
-        exp.active = false;  
-      
-        this.expedientRepository.updateStateExpedient(exp);
-      });
+      if (subagent.expedient.length > 0) {
+        subagent.expedient.forEach((exp) => {
+          if (exp.active == true) {
+            exp.active = false;
+          }
+        });
+      }
+
+      let objExpedient = new Expedient();
+      objExpedient.expedientNumber = creExpDto.expedientNumber;
+      objExpedient.url = creExpDto.url;
+      objExpedient.observation = creExpDto.observation;
+      objExpedient.active = true;
+      objExpedient.dateOfUpdated = new Date();
+
+      subagent.expedient.push(objExpedient);
+
+      return await this.subAgentService.updateSubAgentAux(subagent);
+    } catch (err) {
+      throw new NotFoundException(err);
     }
-    
-    
-    const objExpedient = new Expedient();
-    objExpedient.expedientNumber = createExpedientDto.expedientNumber;
-    objExpedient.active = true;
-    objExpedient.url= createExpedientDto.url;
-    objExpedient.observation = createExpedientDto.observation;
-    //objExpedient.subAgent.subAgencyNumber =createProvisorioDto.subAgencyNumber;
-    
-    
-    const createSubAgentDto= new  CreateSubAgenttDto();
- 
-    createSubAgentDto.subAgencyNumber = subagent.subAgencyNumber;
-    createSubAgentDto.documentNumber = subagent.documentNumber;
-    createSubAgentDto.name = subagent.name;
-    createSubAgentDto.passportPhoto = subagent.passportPhoto;
-    createSubAgentDto.certificateGoodConduct = subagent.certificateGoodConduct;
-    createSubAgentDto.rut = subagent.rut;
-    createSubAgentDto.literalE = subagent.literalE;
-    createSubAgentDto.patentNumber = subagent.patentNumber;
-    createSubAgentDto.certificateNumber = subagent.certificateNumber;
-    createSubAgentDto.address =  subagent.address[0];
-    createSubAgentDto.expedient =objExpedient;
-    createSubAgentDto.provisorio =  subagent.provisorio[0];
- 
-    let subAgentResul = null;
-     //Creo nuevo subAgentConAddress
-      subAgentResul = await this.subAgentService.createSubAgent(createSubAgentDto);
-      return subagent;
-}
-  
+  }
+
   async updateExpedient(updateExpedientsDto: UpdateExpedientDto): Promise<Expedient> {
-    return await this.expedientRepository.updateExpedient(updateExpedientsDto);
-  }
-  
-  async deleteExpedient(id: number): Promise<Expedient>{
-     return await this.expedientRepository.deleteExpedient(id);
-  }
+    try {
+      const { expedientNumber, url, observation, active } = updateExpedientsDto;
 
-  
-  async updateStateExpedient(id: number): Promise<Expedient>{
-    
-    const found = await this.expedientRepository.findOne({ where: { id } });
-    if (!found) {
-      throw new NotFoundException(`Expedient with ID "${id}" not found`);
+      const expedient = new Expedient();
+      expedient.expedientNumber = parseInt(expedientNumber.toString());
+      expedient.url = null;
+      expedient.observation = observation;
+      expedient.active = active;
+      return await this.expedientRepository.updateExpedient(expedient);
+    } catch (err) {
+      throw new NotFoundException(err);
     }
-
-    var stateUpdating= false;
-    if (found.active == false) {
-      var stateUpdating= true;
-    }
-
-     
-    var expUpdate = new Expedient();
-    expUpdate.expedientNumber = found.expedientNumber;
-    expUpdate.url             =  found.url;
-    expUpdate.observation     =  found.observation;
-    expUpdate.active          =  stateUpdating;
- 
-      
-    return await this.expedientRepository.updateStateExpedient(expUpdate);
   }
-  
+
+  async deleteExpedient(id: number): Promise<Expedient> {
+    try {
+      return await this.expedientRepository.deleteExpedient(id);
+    } catch (err) {
+      throw new NotFoundException(err);
+    }
+  }
+
+  async updateStateExpedient(id: number): Promise<Expedient> {
+    try {
+      const expedient = await this.expedientRepository.findOne({ where: { id } });
+      if (!expedient) {
+        throw new NotFoundException(`Expedient with ID "${id}" not found`);
+      }
+
+      if (expedient.active == false) {
+        expedient.active = true;
+      }
+
+      return await this.expedientRepository.updateStateExpedient(expedient);
+    } catch (err) {
+      throw new NotFoundException(err);
+    }
+  }
 }

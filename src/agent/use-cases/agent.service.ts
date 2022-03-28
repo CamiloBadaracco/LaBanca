@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { agent } from "supertest";
+import { Exception } from "handlebars";
 import { Agent } from "../domain/agent.entity";
 import { CreateAgentDto } from "../infrastructure/controllers/dto/create-agent.dto";
 import { UpdateAgentDto } from "../infrastructure/controllers/dto/update-agent.dto";
@@ -13,79 +13,103 @@ export class AgentService {
     private agentRepository: AgentRepository
   ) {}
 
-  /*
   async getAllAgents(): Promise<Agent[]> {
-    return (await this.agentRepository.getAgents()).sort( (a,b)=>{
-      let fa = a.agencyNumber.toLowerCase(),
-          fb = b.agencyNumber.toLowerCase();
-    
-    
-      if( fa < fb)
-      {
-        return 1;
-      }
-      else if(fb < fa)
-      {
-        return -1;
-      }
-      return 0;
-    });
-
-  }*/
-
-  async getAllAgents(): Promise<Agent[]> {
-    return await this.agentRepository.getAgents();
+    try {
+      return await this.agentRepository.getAgents();
+    } catch (err) {
+      throw new Exception(err);
+    }
   }
 
   async getEnableAgents(): Promise<Agent[]> {
-    return await this.agentRepository.getEnableAgents();
+    try {
+      return await this.agentRepository.getEnableAgents();
+    } catch (err) {
+      throw new Exception(err);
+    }
   }
 
   async getAgentById(agencyNumber: string): Promise<Agent> {
-    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+    try {
+      const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+      if (!found) {
+        return null;
+      }
 
-    if (!found) {
-      throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
+      return found;
+    } catch (err) {
+      throw new Exception(err);
     }
-
-    return found;
   }
 
   async createAgent(createAgentDto: CreateAgentDto): Promise<Agent> {
-    return await this.agentRepository.createAgent(createAgentDto);
+    let agencyNumber = createAgentDto.agencyNumber;
+    const agentExistent = await this.agentRepository.findOne({ where: { agencyNumber } });
+    if (agentExistent) throw new HttpException("El Agente ya existe.", 797);
+
+    const agent = new Agent();
+    agent.agencyNumber = agencyNumber;
+    agent.orden = createAgentDto.orden;
+    agent.zone = createAgentDto.zone;
+    agent.mail = createAgentDto.mail;
+    agent.active = true;
+    return await this.agentRepository.createAgent(agent);
   }
 
   async updateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
-    return await this.agentRepository.updateAgent(updateAgentDto);
+    try {
+      const { id, oldAgencyNumber, orden, zone, mail, active, newAgencyNumber } = updateAgentDto;
+
+      let agencyNumber = updateAgentDto.oldAgencyNumber;
+
+      let agent = await this.agentRepository.findOne({ where: { agencyNumber } });
+      if (!agent) throw new NotFoundException(`User with userName "${agencyNumber}" not found`);
+
+      agent.orden = orden;
+      agent.zone = zone;
+      agent.mail = mail;
+      agent.active = true;
+      if (newAgencyNumber) {
+        agent.agencyNumber = newAgencyNumber;
+      }
+      console.log(agent);
+
+      return await this.agentRepository.updateAgent(agent);
+    } catch (err) {
+      throw new Exception(err);
+    }
   }
 
   async deleteAgent(agencyNumber: string): Promise<Agent> {
-    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+    try {
+      const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+      if (!found) {
+        throw new HttpException("No se encotnraron datos para el registro buscado.", 796);
+      }
 
-    if (!found) {
-      throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
+      return await this.agentRepository.deleteAgent(found.id);
+    } catch (err) {
+      throw new Exception(err);
     }
-
-    return await this.agentRepository.deleteAgent(found.id);
   }
 
-  async editStateAgent(updateAgentDto: UpdateAgentDto): Promise<Agent> {
-    const { id, agencyNumber, orden, zone, mail, active } = updateAgentDto;
+  async editStateAgent(agencyNumber: string): Promise<Agent> {
+    try {
+      const found = await this.agentRepository.findOne({ where: { agencyNumber } });
 
-    const found = await this.agentRepository.findOne({ where: { agencyNumber } });
+      if (!found) {
+        throw new HttpException("No se encotnraron registros requerido.", 796);
+      }
 
-    if (!found) {
-      throw new NotFoundException(`Agent with agencyNumber "${agencyNumber}" not found`);
+      if (!found.active) {
+        found.active = true;
+      } else {
+        found.active = false;
+      }
+
+      return await this.agentRepository.updateStateAgent(found);
+    } catch (err) {
+      throw new Exception(err);
     }
-
-    if (!found.active) {
-      updateAgentDto.active = true;
-    } else {
-      updateAgentDto.active = false;
-    }
-
-    updateAgentDto.id = found.id;
-
-    return await this.agentRepository.updateStateAgent(updateAgentDto);
   }
 }

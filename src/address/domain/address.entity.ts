@@ -30,6 +30,6 @@ export class Address extends BaseEntity {
   @Column({ type: "timestamp", default: "NOW()" })
   dateOfUpdated: Date;
 
-  @ManyToOne((type) => SubAgent, (subAgent) => subAgent.address)
+  @ManyToOne((type) => SubAgent, (subAgent) => subAgent.address, { onDelete: "CASCADE" })
   subAgent: SubAgent;
 }
