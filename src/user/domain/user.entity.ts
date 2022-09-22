@@ -24,7 +24,7 @@ export class User extends BaseEntity {
   @Column({ type: "simple-array" })
   roles: string[];
 
-  //Antes de insertar o actualizar quiero que se haga el hash
+  //Antes de insertar o actualizar quiero que se haga el hash// Cambio de prueba
   /*@BeforeInsert()
   @BeforeUpdate()*/
   hashPassword(pass: string): void {
